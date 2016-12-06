@@ -43,7 +43,6 @@ class Chart extends Component {
   }
 }
 render(<Chart />, document.getElementById('app'));
-render(app, document.getElementById('app');
 ```
 
 ## PropTypes
@@ -74,6 +73,13 @@ Testing done with Jest
 ``` sh
 npm run test
 ```
+
+Run the webpack dev server
+``` sh
+npm run start
+```
+
 #Credits
 This is a react remake and slightly altered version of http://bl.ocks.org/brattonc/5e5ce9beee483220e2f6
+
 So a big thanks to Chris Bratton for making the original

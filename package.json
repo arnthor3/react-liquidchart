@@ -1,11 +1,12 @@
 {
   "name": "react-liquidchart",
-  "version": "0.0.1",
+  "version": "0.0.12",
   "description": "A React-D3 liquid reusable liquid chart",
-  "main": "webpack.config.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "jest --watch",
-    "start": "webpack-dev-server --inline --hot"
+    "start": "webpack-dev-server --inline --hot",
+    "build": "WEBPACK_ENV=build webpack"
   },
   "repository": {
     "type": "git",
@@ -44,8 +45,13 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
-    "d3": "^4.4.0",
-    "lodash": "^4.17.2",
+    "d3-ease": "^1.0.2",
+    "d3-interpolate": "^1.1.2",
+    "d3-scale": "^1.0.4",
+    "d3-selection": "^1.0.3",
+    "d3-shape": "^1.0.4",
+    "d3-timer": "^1.0.3",
+    "lodash.throttle": "^4.1.1",
     "react": "^15.4.1",
     "react-dom": "^15.4.1"
   }

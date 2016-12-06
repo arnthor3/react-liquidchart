@@ -5,11 +5,9 @@ import React, {
   cloneElement,
 } from 'react';
 
-import * as d3 from 'd3';
-import { throttle } from 'lodash';
+import throttle from 'lodash.throttle';
 import ReactIf from './ReactIf';
 import Liquid from './Liquid';
-import cloneComponents from './Helpers/cloneChildren';
 
 export default class Chart extends Component {
   static propTypes = {

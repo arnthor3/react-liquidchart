@@ -1,6 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import * as d3 from 'd3';
-import Arc from './ArcContainer';
+import { timer } from 'd3-timer';
+import { arc, area } from 'd3-shape';
+import * as ease from 'd3-ease';
+import { select, selectAll } from 'd3-selection';
+import { scaleLinear } from 'd3-scale';
+import { interpolate } from 'd3-interpolate';
 /*
   PropType for fill and stroke..
  */
@@ -46,6 +50,8 @@ export default class LiquidChart extends Component {
     frequency: PropTypes.number,
     // on click
     onClick: PropTypes.func,
+    offsetY: PropTypes.number,
+    offsetX: PropTypes.number,
   }
 
   static defaultProps = {
@@ -54,7 +60,7 @@ export default class LiquidChart extends Component {
     outerRadius: 0.9,
     innerRadius: 0.8,
     margin: 0.025,
-    ease: d3.easeCubicInOut,
+    ease: ease.easeCubicInOut,
     animationTime: 2000,
     amplitude: 2,
     frequency: 4,
@@ -70,6 +76,8 @@ export default class LiquidChart extends Component {
     number: {
       fill: 'rgb(4, 86, 129)',
     },
+    offsetX: 1,
+    offsetY: 1,
     onClick: () => {},
   };
 
@@ -90,19 +98,20 @@ export default class LiquidChart extends Component {
 
   setRes() {
     this.arr = new Array(100);
-    this.wave = d3.select(this.clipPath).datum([this.props.value]);
-    this.text = d3.select(this.container)
+    this.wave = select(this.clipPath).datum([this.props.value]);
+    this.text = select(this.container)
                   .selectAll('text').selectAll('tspan.value');
     const width = (this.props.width * this.props.innerRadius) / 2;
     const height = (this.props.height * (this.props.innerRadius - this.props.margin)) / 2;
 
-    this.x = d3.scaleLinear().range([-width, width]).domain([0, 100]);
-    this.y = d3.scaleLinear().range([height, -height]).domain([0, 100]);
+    this.x = scaleLinear().range([-width, width]).domain([0, 100]);
+    this.y = scaleLinear().range([height, -height]).domain([0, 100]);
   }
+
   draw() {
     this.setRes();
 
-    const val = d3.area()
+    const val = area()
                     .x((d, i) => this.x(i))
                     .y0((d, i) => this.y(
                       (this.props.amplitude * Math.sin(i / 4)) + this.props.value))
@@ -113,15 +122,15 @@ export default class LiquidChart extends Component {
 
   animate() {
     this.setRes();
-    const val = d3.area()
+    const val = area()
                     .x((d, i) => this.x(i))
                     .y0((d, i) => this.y(Math.sin(i / 4)))
                     .y1(d => this.props.height / 2);
 
-    const time = d3.scaleLinear().range([0, 1]).domain([0, this.props.animationTime]);
-    const interpolateValue = d3.interpolate(this.wave.node().old || 0, this.props.value);
+    const time = scaleLinear().range([0, 1]).domain([0, this.props.animationTime]);
+    const interpolateValue = interpolate(this.wave.node().old || 0, this.props.value);
 
-    const animationTimer = d3.timer((t) => {
+    const animationTimer = timer((t) => {
       const animate = this.props.ease(time(t));
 
       val.y0((d, i) => this.y(
@@ -147,16 +156,18 @@ export default class LiquidChart extends Component {
     const radius = Math.min(this.props.height / 2, this.props.width / 2);
     const liquidRadius = radius * (this.props.innerRadius - this.props.margin);
     // set the outerArc arc parameters
-    const outerArc = d3.arc()
+    const outerArc = arc()
                       .outerRadius(this.props.outerRadius * radius)
                       .innerRadius(this.props.innerRadius * radius)
                       .startAngle(0)
                       .endAngle(Math.PI * 2);
+    const cX = (this.props.width * this.props.offsetX) / 2;
+    const cY = (this.props.height * this.props.offsetY) / 2;
 
     return (
-      <Arc
-        {...this.props}
-        getElement={(c) => { this.container = c; }}
+      <g
+        transform={`translate(${cX},${cY})`}
+        ref={(c) => { this.container = c; }}
       >
         <defs>
           <clipPath
@@ -209,7 +220,7 @@ export default class LiquidChart extends Component {
           style={{ pointerEvents: 'all' }}
           onClick={() => { this.props.onClick(); }}
         />
-      </Arc>
+      </g>
     );
   }
 }
