@@ -1,0 +1,32 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true,
+        "mocha": true
+    },
+    "parser": "babel-eslint",
+    "plugins": ["react"],
+    "extends": ["eslint:recommended", "airbnb"],
+    //this is to get the import export thing out of the mix
+    "parserOptions": {
+        "sourceType": "module",
+         "ecmaVersion": 7,
+        "ecmaFeatures": {
+            "jsx": true,
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "globals": {
+      "beforeEach": true,
+      "describe": true,
+      "expect": true,
+      "it": true,
+      "React": true,
+      "xdescribe": true,
+      "xit": true
+    },
+    "rules": {
+        "no-unused-vars" : 0,
+        "no-console" : 0
+    }
+}

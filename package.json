@@ -1,0 +1,52 @@
+{
+  "name": "react-liquidchart",
+  "version": "0.0.1",
+  "description": "A React-D3 liquid reusable liquid chart",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "jest --watch",
+    "start": "webpack-dev-server --inline --hot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arnthor3/react-liquidchart.git"
+  },
+  "keywords": [
+    "react",
+    "d3"
+  ],
+  "author": "arnthor3@gmail.com",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/arnthor3/react-liquidchart/issues"
+  },
+  "homepage": "https://github.com/arnthor3/react-liquidchart#readme",
+  "devDependencies": {
+    "babel-eslint": "^7.1.1",
+    "babel-jest": "^17.0.2",
+    "babel-loader": "^6.2.8",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "enzyme": "^2.6.0",
+    "eslint": "^3.11.1",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-loader": "^1.6.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.7.1",
+    "jest": "^17.0.3",
+    "jest-cli": "^17.0.3",
+    "react-addons-test-utils": "^15.4.1",
+    "react-hot-loader": "^1.3.1",
+    "react-test-renderer": "^15.4.1",
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2"
+  },
+  "dependencies": {
+    "d3": "^4.4.0",
+    "lodash": "^4.17.2",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1"
+  }
+}
