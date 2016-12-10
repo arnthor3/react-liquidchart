@@ -4,21 +4,25 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _d = require('d3');
+var _d3Timer = require('d3-timer');
 
-var d3 = _interopRequireWildcard(_d);
+var _d3Shape = require('d3-shape');
 
-var _ArcContainer = require('./ArcContainer');
+var _d3Ease = require('d3-ease');
 
-var _ArcContainer2 = _interopRequireDefault(_ArcContainer);
+var ease = _interopRequireWildcard(_d3Ease);
+
+var _d3Selection = require('d3-selection');
+
+var _d3Scale = require('d3-scale');
+
+var _d3Interpolate = require('d3-interpolate');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -69,13 +73,13 @@ var LiquidChart = function (_Component) {
     key: 'setRes',
     value: function setRes() {
       this.arr = new Array(100);
-      this.wave = d3.select(this.clipPath).datum([this.props.value]);
-      this.text = d3.select(this.container).selectAll('text').selectAll('tspan.value');
+      this.wave = (0, _d3Selection.select)(this.clipPath).datum([this.props.value]);
+      this.text = (0, _d3Selection.select)(this.container).selectAll('text').selectAll('tspan.value');
       var width = this.props.width * this.props.innerRadius / 2;
       var height = this.props.height * (this.props.innerRadius - this.props.margin) / 2;
 
-      this.x = d3.scaleLinear().range([-width, width]).domain([0, 100]);
-      this.y = d3.scaleLinear().range([height, -height]).domain([0, 100]);
+      this.x = (0, _d3Scale.scaleLinear)().range([-width, width]).domain([0, 100]);
+      this.y = (0, _d3Scale.scaleLinear)().range([height, -height]).domain([0, 100]);
     }
   }, {
     key: 'draw',
@@ -84,7 +88,7 @@ var LiquidChart = function (_Component) {
 
       this.setRes();
 
-      var val = d3.area().x(function (d, i) {
+      var val = (0, _d3Shape.area)().x(function (d, i) {
         return _this2.x(i);
       }).y0(function (d, i) {
         return _this2.y(_this2.props.amplitude * Math.sin(i / 4) + _this2.props.value);
@@ -100,7 +104,7 @@ var LiquidChart = function (_Component) {
       var _this3 = this;
 
       this.setRes();
-      var val = d3.area().x(function (d, i) {
+      var val = (0, _d3Shape.area)().x(function (d, i) {
         return _this3.x(i);
       }).y0(function (d, i) {
         return _this3.y(Math.sin(i / 4));
@@ -108,10 +112,10 @@ var LiquidChart = function (_Component) {
         return _this3.props.height / 2;
       });
 
-      var time = d3.scaleLinear().range([0, 1]).domain([0, this.props.animationTime]);
-      var interpolateValue = d3.interpolate(this.wave.node().old || 0, this.props.value);
+      var time = (0, _d3Scale.scaleLinear)().range([0, 1]).domain([0, this.props.animationTime]);
+      var interpolateValue = (0, _d3Interpolate.interpolate)(this.wave.node().old || 0, this.props.value);
 
-      var animationTimer = d3.timer(function (t) {
+      var animationTimer = (0, _d3Timer.timer)(function (t) {
         var animate = _this3.props.ease(time(t));
 
         val.y0(function (d, i) {
@@ -123,6 +127,10 @@ var LiquidChart = function (_Component) {
         _this3.wave.attr('d', val(_this3.arr));
 
         if (t > _this3.props.animationTime) {
+          val.y0(function (d, i) {
+            return _this3.y(_this3.props.amplitude * Math.sin(i / _this3.props.frequency) + _this3.props.value);
+          });
+          _this3.wave.attr('d', val(_this3.arr));
           animationTimer.stop();
           _this3.text.text(Math.round(_this3.props.value));
           if (_this3.props.onEnd !== undefined) {
@@ -140,15 +148,18 @@ var LiquidChart = function (_Component) {
       var radius = Math.min(this.props.height / 2, this.props.width / 2);
       var liquidRadius = radius * (this.props.innerRadius - this.props.margin);
       // set the outerArc arc parameters
-      var outerArc = d3.arc().outerRadius(this.props.outerRadius * radius).innerRadius(this.props.innerRadius * radius).startAngle(0).endAngle(Math.PI * 2);
+      var outerArc = (0, _d3Shape.arc)().outerRadius(this.props.outerRadius * radius).innerRadius(this.props.innerRadius * radius).startAngle(0).endAngle(Math.PI * 2);
+      var cX = this.props.width * this.props.offsetX / 2;
+      var cY = this.props.height * this.props.offsetY / 2;
 
       return _react2.default.createElement(
-        _ArcContainer2.default,
-        _extends({}, this.props, {
-          getElement: function getElement(c) {
+        'g',
+        {
+          transform: 'translate(' + cX + ',' + cY + ')',
+          ref: function ref(c) {
             _this4.container = c;
           }
-        }),
+        },
         _react2.default.createElement(
           'defs',
           null,
@@ -167,10 +178,8 @@ var LiquidChart = function (_Component) {
         _react2.default.createElement(
           'text',
           {
-            style: {
-              textAnchor: 'middle',
-              fontSize: '7rem'
-            },
+            textAnchor: 'middle',
+            fontSize: this.props.fontSize,
             fill: this.props.number.fill,
             stroke: this.props.number.stroke
           },
@@ -181,7 +190,7 @@ var LiquidChart = function (_Component) {
           ),
           _react2.default.createElement(
             'tspan',
-            { fontSize: '3rem' },
+            { fontSize: this.props.smallFontSize },
             '%'
           )
         ),
@@ -197,10 +206,8 @@ var LiquidChart = function (_Component) {
           _react2.default.createElement(
             'text',
             {
-              style: {
-                textAnchor: 'middle',
-                fontSize: '7rem'
-              },
+              textAnchor: 'middle',
+              fontSize: this.props.fontSize,
               fill: this.props.liquidNumber.fill,
               stroke: this.props.liquidNumber.stroke
             },
@@ -211,7 +218,7 @@ var LiquidChart = function (_Component) {
             ),
             _react2.default.createElement(
               'tspan',
-              { fontSize: '3rem' },
+              { fontSize: this.props.smallFontSize },
               '%'
             )
           )
@@ -272,7 +279,13 @@ LiquidChart.propTypes = {
   // the wave frequncy inverse, the higer the number the fewer the waves
   frequency: _react.PropTypes.number,
   // on click
-  onClick: _react.PropTypes.func
+  onClick: _react.PropTypes.func,
+  offsetY: _react.PropTypes.number,
+  offsetX: _react.PropTypes.number,
+  // Font size for the number
+  fontSize: _react.PropTypes.string,
+  // font size for the percentage
+  smallFontSize: _react.PropTypes.string
 };
 LiquidChart.defaultProps = {
   value: 65,
@@ -280,7 +293,7 @@ LiquidChart.defaultProps = {
   outerRadius: 0.9,
   innerRadius: 0.8,
   margin: 0.025,
-  ease: d3.easeCubicInOut,
+  ease: ease.easeCubicInOut,
   animationTime: 2000,
   amplitude: 2,
   frequency: 4,
@@ -296,6 +309,10 @@ LiquidChart.defaultProps = {
   number: {
     fill: 'rgb(4, 86, 129)'
   },
-  onClick: function onClick() {}
+  offsetX: 1,
+  offsetY: 1,
+  onClick: function onClick() {},
+  fontSize: '7rem',
+  smallFontSize: '3rem'
 };
 exports.default = LiquidChart;

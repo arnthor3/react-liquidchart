@@ -10,7 +10,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _lodash = require('lodash');
+var _lodash = require('lodash.throttle');
+
+var _lodash2 = _interopRequireDefault(_lodash);
 
 var _ReactIf = require('./ReactIf');
 
@@ -19,10 +21,6 @@ var _ReactIf2 = _interopRequireDefault(_ReactIf);
 var _Liquid = require('./Liquid');
 
 var _Liquid2 = _interopRequireDefault(_Liquid);
-
-var _cloneChildren = require('./Helpers/cloneChildren');
-
-var _cloneChildren2 = _interopRequireDefault(_cloneChildren);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49,7 +47,7 @@ var Chart = function (_Component) {
       as this.resize and throttle it so it does not refire many times during resize
     */
     if (_this.props.responsive === true) {
-      _this.resize = (0, _lodash.throttle)(_this.onResize.bind(_this), 150);
+      _this.resize = (0, _lodash2.default)(_this.onResize.bind(_this), 150);
     }
     return _this;
   }

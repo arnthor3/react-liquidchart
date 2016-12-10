@@ -67,6 +67,11 @@ the wave height
 The inverse of frequency actually, the higher the number the smother the wave
 ### responsive : boolean
 Makes the chart listen to changes in screen size and resize the chart on screen resize
+### fontSize : string
+The font size attribute for the number
+### smallFontSize : string
+font size for the percentage sign
+
 
 ## Development
 Testing done with Jest

@@ -1,12 +1,12 @@
 {
   "name": "react-liquidchart",
-  "version": "0.0.12",
-  "description": "A React-D3 liquid reusable liquid chart",
+  "version": "0.0.13",
+  "description": "A Reusable liquid chart made with d3 and react",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest --watch",
     "start": "webpack-dev-server --inline --hot",
-    "build": "WEBPACK_ENV=build webpack"
+    "build": "babel src -d dist"
   },
   "repository": {
     "type": "git",

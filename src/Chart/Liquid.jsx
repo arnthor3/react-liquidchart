@@ -52,6 +52,10 @@ export default class LiquidChart extends Component {
     onClick: PropTypes.func,
     offsetY: PropTypes.number,
     offsetX: PropTypes.number,
+    // Font size for the number
+    fontSize: PropTypes.string,
+    // font size for the percentage
+    smallFontSize: PropTypes.string,
   }
 
   static defaultProps = {
@@ -79,6 +83,8 @@ export default class LiquidChart extends Component {
     offsetX: 1,
     offsetY: 1,
     onClick: () => {},
+    fontSize: '7rem',
+    smallFontSize: '3rem',
   };
 
   componentDidMount() {
@@ -142,6 +148,11 @@ export default class LiquidChart extends Component {
       this.wave.attr('d', val(this.arr));
 
       if (t > this.props.animationTime) {
+        val.y0((d, i) => this.y(
+          (this.props.amplitude * Math.sin(i / this.props.frequency))
+          + this.props.value,
+        ));
+        this.wave.attr('d', val(this.arr));
         animationTimer.stop();
         this.text.text(Math.round(this.props.value));
         if (this.props.onEnd !== undefined) {
@@ -179,15 +190,13 @@ export default class LiquidChart extends Component {
           </clipPath>
         </defs>
         <text
-          style={{
-            textAnchor: 'middle',
-            fontSize: '7rem',
-          }}
+          textAnchor="middle"
+          fontSize={this.props.fontSize}
           fill={this.props.number.fill}
           stroke={this.props.number.stroke}
         >
           <tspan className="value">{this.props.value}</tspan>
-          <tspan fontSize="3rem">%</tspan>
+          <tspan fontSize={this.props.smallFontSize}>%</tspan>
         </text>
         <g
           clipPath="url(#clip)"
@@ -197,15 +206,13 @@ export default class LiquidChart extends Component {
             fill={this.props.liquid.fill}
           />
           <text
-            style={{
-              textAnchor: 'middle',
-              fontSize: '7rem',
-            }}
+            textAnchor="middle"
+            fontSize={this.props.fontSize}
             fill={this.props.liquidNumber.fill}
             stroke={this.props.liquidNumber.stroke}
           >
             <tspan className="value">{this.props.value}</tspan>
-            <tspan fontSize="3rem">%</tspan>
+            <tspan fontSize={this.props.smallFontSize}>%</tspan>
           </text>
         </g>
         <path
