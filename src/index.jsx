@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
-import Liquid from './Chart/';
+import Chart from './Chart/Chart';
+import Liquid from './Chart/Liquid';
+import Gradient from './Chart/Gradient';
 
-export default Liquid;
+export { Chart, Liquid, Gradient };

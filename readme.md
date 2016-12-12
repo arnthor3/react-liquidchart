@@ -9,72 +9,101 @@ npm i -S react-liquidchart
 ``` js
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import Liquid from 'react-liquidchart';
+import { Chart, Liquid, Gradient } from 'react-liquidchart';
 
-class Chart extends Component {
+class ChartLiquid extends Component {
   constructor() {
     super();
     this.onClick = this.onClick.bind(this);
-    this.state = {
-      value: Math.random() * 100,
-    };
+    this.state = ({
+      value: (Math.random() * 100),
+    });
   }
+
   onClick() {
-    this.setState({ value: Math.random() * 100 });
+    this.setState({
+      value: (Math.random() * 100),
+    });
   }
 
   render() {
     return (
       <div
         style={{
-          width: '800px',
-          height: '350px',
-          marginLeft: 'auto',
-          marginRight: 'auto',
+          width: '100%',
+          height: '500px',
         }}
       >
-        <Liquid
-          onClick={this.onClick}
-          value={this.state.value}
-          animate
-        />
+        <Chart
+          responsive
+          gradient="liquid"
+        >
+          <Liquid
+            animate
+            animateWaves
+            onClick={this.onClick}
+            amplitude={4}
+            value={this.state.value}
+
+          />
+          <Gradient>
+            <stop stopColor="someColor" offset="somepercentage%"/>
+            <stop stopColor="someColor" offset="somepercentage%"/>
+            <stop stopColor="someColor" offset="somepercentage%"/>
+            <stop stopColor="someColor" offset="somepercentage%"/>
+          </Gradient>
+        </Chart>
       </div>
     );
   }
 }
-render(<Chart />, document.getElementById('app'));
+
+render(<ChartLiquid />, document.getElementById('app'));
 ```
 
-## PropTypes
-### value : number
+## Components
+### Chart
+The Chart container component, calculates width and height and renders the svg and charts
+#### Chart PropTypes
+##### responsive : boolean
+Makes the chart listen to changes in screen size and resize the chart on screen resize
+##### gradient : string
+If liquid is gradient then set the string to something, it's used to set the fill
+### Liqiud
+The Liquid Component has all the visable Components
+#### Liquid PropTypes
+##### value : number
 a percentage from 0 to 100
-### animate : boolean
+##### animate : boolean
 if true then animate
-### animateWaves : boolean
+##### animateWaves : boolean
 if true then animate waves
-### gradient : boolean
+##### gradient : boolean
 If true then add gradient effect on liquid based on liquid.fill color
-### onEnd : function
+##### onEnd : function
 A function that is called when animation is done
-### outerArcStyle : Object { fill: string, stroke: string }
+##### outerArcStyle : Object { fill: string, stroke: string }
 A fill and stroke for the outer arc, defaults to fill: 'rgb(23, 139, 202)'
-### liquid : Object { fill: string, stroke: string }
+##### liquid : Object { fill: string, stroke: string }
 A fill and stroke for the liquid, defaults to fill: 'rgb(23, 139, 202)'
-### liquidNumber : Object { fill: string, stroke: string }
+##### liquidNumber : Object { fill: string, stroke: string }
 A fill and stroke for the part of the number that is in liquid
 defaults to fill: 'rgb(164, 219, 248)',
-### number : Object { fill: string, stroke: string }
+##### number : Object { fill: string, stroke: string }
 A fill and stroke for the 'dry' part of the number default to fill: 'rgb(4, 86, 129)'
-### amplitude : number
+##### amplitude : number
 the wave height
-### frequency : number
+##### frequency : number
 The inverse of frequency actually, the higher the number the smother the wave
-### responsive : boolean
-Makes the chart listen to changes in screen size and resize the chart on screen resize
-### fontSize : string
+##### waveScaleLimit : bool
+scaling the wave when it´s close to 0 or 100 so the area does not appear empty at those values
+##### fontSize : string
 The font size attribute for the number
-### smallFontSize : string
+##### smallFontSize : string
 font size for the percentage sign
+### Gradient
+The Gradient is just a thin wrapper for linearGradient it takes in stop children,
+if none are set it makes a gradient out of the shades of the liquid.fill proptype
 
 ## Development
 Testing done with Jest
@@ -89,5 +118,4 @@ npm run start
 
 #Credits
 This is a react remake and slightly altered version of http://bl.ocks.org/brattonc/5e5ce9beee483220e2f6
-
-So a big thanks to Chris Bratton for making the original
+So a big thanks to Chris Bratton for making the original!
