@@ -1,6 +1,6 @@
 {
   "name": "react-liquidchart",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "A Reusable liquid chart made with d3 and react",
   "main": "dist/index.js",
   "scripts": {
@@ -45,6 +45,7 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "d3-color": "^1.0.2",
     "d3-ease": "^1.0.2",
     "d3-interpolate": "^1.1.2",
     "d3-scale": "^1.0.4",

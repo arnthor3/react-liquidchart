@@ -52,6 +52,8 @@ a percentage from 0 to 100
 if true then animate
 ### animateWaves : boolean
 if true then animate waves
+### gradient : boolean
+If true then add gradient effect on liquid based on liquid.fill color
 ### onEnd : function
 A function that is called when animation is done
 ### outerArcStyle : Object { fill: string, stroke: string }

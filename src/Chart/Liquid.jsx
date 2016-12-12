@@ -5,6 +5,8 @@ import * as ease from 'd3-ease';
 import { select, selectAll } from 'd3-selection';
 import { scaleLinear } from 'd3-scale';
 import { interpolate } from 'd3-interpolate';
+import * as d3Color from 'd3-color';
+import ReactIf from './ReactIf';
 /*
   PropType for fill and stroke..
  */
@@ -57,6 +59,7 @@ export default class LiquidChart extends Component {
     // font size for the percentage
     smallFontSize: PropTypes.string,
     animateWaves: PropTypes.bool,
+    gradient: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -138,10 +141,9 @@ export default class LiquidChart extends Component {
     const time = scaleLinear().range([0, 1]).domain([0, this.props.animationTime]);
     const interpolateValue = interpolate(this.wave.node().old || 0, this.props.value);
     const interpolateWave = interpolate(0, this.liquidRadius);
+
     const animationTimer = timer((t) => {
       const animate = this.props.ease(time(t));
-      const animateWave = ease.easeSinInOut(time(t));
-
       val.y0((d, i) => this.y(
         (this.props.amplitude * Math.sin(i / this.props.frequency))
         + interpolateValue(animate)));
@@ -149,14 +151,20 @@ export default class LiquidChart extends Component {
       this.text.text(Math.round(interpolateValue(animate)));
 
       this.wave.attr('d', val(this.arr));
-      this.wave.attr('transform', `translate(${interpolateWave(animateWave)},0)`);
+
+      if (this.props.animateWaves) {
+        const animateWave = ease.easeSinInOut(time(t));
+        this.wave.attr('transform', `translate(${interpolateWave(animateWave)},0)`);
+      }
       // the transition has ended
       if (t >= this.props.animationTime) {
-        // make sure that the chart ends in the right position
         animationTimer.stop();
-        this.text.text(Math.round(interpolateValue(animate)));
+        // Make sure that the animation stops in the right place
+        this.text.text(Math.round(interpolateValue(1)));
         this.wave.attr('d', val(this.arr));
-        this.wave.attr('transform', `translate(${interpolateWave(1)},0)`);
+        if (this.props.animateWaves) {
+          this.wave.attr('transform', `translate(${interpolateWave(1)},0)`);
+        }
         this.text.text(Math.round(this.props.value));
         // if the onEnd prop is set then call the function
         if (this.props.onEnd !== undefined) {
@@ -181,11 +189,43 @@ export default class LiquidChart extends Component {
     const cX = (this.props.width * this.props.offsetX) / 2;
     const cY = (this.props.height * this.props.offsetY) / 2;
 
+    // store the color for the gradient effect
+    const col = d3Color.color(this.props.liquid.fill);
+    const colNumbers = d3Color.color(this.props.liquidNumber.fill);
+
+    let fillCircle = this.props.liquid.fill;
+    if (this.props.gradient) {
+      fillCircle = 'url(#GradientLiquidCircle)';
+    }
+
     return (
       <g
         transform={`translate(${cX},${cY})`}
         ref={(c) => { this.container = c; }}
       >
+        <ReactIf
+          condition={this.props.gradient}
+          el={<defs />}
+        >
+          <linearGradient id="GradientLiquidCircle">
+            <stop
+              offset="5%"
+              stopColor={this.props.liquid.fill}
+              x1="0%"
+              y1="0%"
+              x2="35%"
+              y2="45%"
+            />
+            <stop
+              offset="55%"
+              stopColor={col.brighter(1)}
+              x1="35%"
+              x2="100%"
+              y1="45%"
+              y2="100%"
+            />
+          </linearGradient>
+        </ReactIf>
         <defs>
           <clipPath
             id="clip"
@@ -209,7 +249,7 @@ export default class LiquidChart extends Component {
         >
           <circle
             r={this.liquidRadius}
-            fill={this.props.liquid.fill}
+            fill={fillCircle}
           />
           <text
             textAnchor="middle"

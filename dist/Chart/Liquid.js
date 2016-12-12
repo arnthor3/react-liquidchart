@@ -24,6 +24,14 @@ var _d3Scale = require('d3-scale');
 
 var _d3Interpolate = require('d3-interpolate');
 
+var _d3Color = require('d3-color');
+
+var d3Color = _interopRequireWildcard(_d3Color);
+
+var _ReactIf = require('./ReactIf');
+
+var _ReactIf2 = _interopRequireDefault(_ReactIf);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -115,10 +123,9 @@ var LiquidChart = function (_Component) {
       var time = (0, _d3Scale.scaleLinear)().range([0, 1]).domain([0, this.props.animationTime]);
       var interpolateValue = (0, _d3Interpolate.interpolate)(this.wave.node().old || 0, this.props.value);
       var interpolateWave = (0, _d3Interpolate.interpolate)(0, this.liquidRadius);
+
       var animationTimer = (0, _d3Timer.timer)(function (t) {
         var animate = _this3.props.ease(time(t));
-        var animateWave = ease.easeSinInOut(time(t));
-
         val.y0(function (d, i) {
           return _this3.y(_this3.props.amplitude * Math.sin(i / _this3.props.frequency) + interpolateValue(animate));
         });
@@ -126,14 +133,20 @@ var LiquidChart = function (_Component) {
         _this3.text.text(Math.round(interpolateValue(animate)));
 
         _this3.wave.attr('d', val(_this3.arr));
-        _this3.wave.attr('transform', 'translate(' + interpolateWave(animateWave) + ',0)');
+
+        if (_this3.props.animateWaves) {
+          var animateWave = ease.easeSinInOut(time(t));
+          _this3.wave.attr('transform', 'translate(' + interpolateWave(animateWave) + ',0)');
+        }
         // the transition has ended
         if (t >= _this3.props.animationTime) {
-          // make sure that the chart ends in the right position
           animationTimer.stop();
-          _this3.text.text(Math.round(interpolateValue(animate)));
+          // Make sure that the animation stops in the right place
+          _this3.text.text(Math.round(interpolateValue(1)));
           _this3.wave.attr('d', val(_this3.arr));
-          _this3.wave.attr('transform', 'translate(' + interpolateWave(1) + ',0)');
+          if (_this3.props.animateWaves) {
+            _this3.wave.attr('transform', 'translate(' + interpolateWave(1) + ',0)');
+          }
           _this3.text.text(Math.round(_this3.props.value));
           // if the onEnd prop is set then call the function
           if (_this3.props.onEnd !== undefined) {
@@ -157,6 +170,15 @@ var LiquidChart = function (_Component) {
       var cX = this.props.width * this.props.offsetX / 2;
       var cY = this.props.height * this.props.offsetY / 2;
 
+      // store the color for the gradient effect
+      var col = d3Color.color(this.props.liquid.fill);
+      var colNumbers = d3Color.color(this.props.liquidNumber.fill);
+
+      var fillCircle = this.props.liquid.fill;
+      if (this.props.gradient) {
+        fillCircle = 'url(#GradientLiquidCircle)';
+      }
+
       return _react2.default.createElement(
         'g',
         {
@@ -165,6 +187,33 @@ var LiquidChart = function (_Component) {
             _this4.container = c;
           }
         },
+        _react2.default.createElement(
+          _ReactIf2.default,
+          {
+            condition: this.props.gradient,
+            el: _react2.default.createElement('defs', null)
+          },
+          _react2.default.createElement(
+            'linearGradient',
+            { id: 'GradientLiquidCircle' },
+            _react2.default.createElement('stop', {
+              offset: '5%',
+              stopColor: this.props.liquid.fill,
+              x1: '0%',
+              y1: '0%',
+              x2: '35%',
+              y2: '45%'
+            }),
+            _react2.default.createElement('stop', {
+              offset: '55%',
+              stopColor: col.brighter(1),
+              x1: '35%',
+              x2: '100%',
+              y1: '45%',
+              y2: '100%'
+            })
+          )
+        ),
         _react2.default.createElement(
           'defs',
           null,
@@ -206,7 +255,7 @@ var LiquidChart = function (_Component) {
           },
           _react2.default.createElement('circle', {
             r: this.liquidRadius,
-            fill: this.props.liquid.fill
+            fill: fillCircle
           }),
           _react2.default.createElement(
             'text',
@@ -291,7 +340,8 @@ LiquidChart.propTypes = {
   fontSize: _react.PropTypes.string,
   // font size for the percentage
   smallFontSize: _react.PropTypes.string,
-  animateWaves: _react.PropTypes.bool
+  animateWaves: _react.PropTypes.bool,
+  gradient: _react.PropTypes.bool
 };
 LiquidChart.defaultProps = {
   value: 65,

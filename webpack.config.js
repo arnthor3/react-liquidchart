@@ -6,7 +6,7 @@ const BUILD = 'build';
 
 module.exports = {
   devtool: 'eval-source-map',
-  entry: './examples/index.jsx',
+  entry: './exampleTest/index.jsx',
   output: {
     path: __dirname,
     filename: './index.js',
