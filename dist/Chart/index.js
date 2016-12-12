@@ -53,7 +53,7 @@ var Chart = function (_Component) {
   }
   /*
     register the throttled resize function if responsive is set to true
-    */
+   */
 
 
   _createClass(Chart, [{

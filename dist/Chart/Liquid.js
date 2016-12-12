@@ -78,7 +78,7 @@ var LiquidChart = function (_Component) {
       var width = this.props.width * this.props.innerRadius / 2;
       var height = this.props.height * (this.props.innerRadius - this.props.margin) / 2;
 
-      this.x = (0, _d3Scale.scaleLinear)().range([-width, width]).domain([0, 100]);
+      this.x = (0, _d3Scale.scaleLinear)().range([-this.liquidRadius * 2, this.liquidRadius * 2]).domain([0, 100]);
       this.y = (0, _d3Scale.scaleLinear)().range([height, -height]).domain([0, 100]);
     }
   }, {
@@ -91,7 +91,7 @@ var LiquidChart = function (_Component) {
       var val = (0, _d3Shape.area)().x(function (d, i) {
         return _this2.x(i);
       }).y0(function (d, i) {
-        return _this2.y(_this2.props.amplitude * Math.sin(i / 4) + _this2.props.value);
+        return _this2.y(_this2.props.amplitude * Math.sin(i / _this2.props.frequency) + _this2.props.value);
       }).y1(function (d) {
         return _this2.props.height / 2;
       });
@@ -114,9 +114,10 @@ var LiquidChart = function (_Component) {
 
       var time = (0, _d3Scale.scaleLinear)().range([0, 1]).domain([0, this.props.animationTime]);
       var interpolateValue = (0, _d3Interpolate.interpolate)(this.wave.node().old || 0, this.props.value);
-
+      var interpolateWave = (0, _d3Interpolate.interpolate)(0, this.liquidRadius);
       var animationTimer = (0, _d3Timer.timer)(function (t) {
         var animate = _this3.props.ease(time(t));
+        var animateWave = ease.easeSinInOut(time(t));
 
         val.y0(function (d, i) {
           return _this3.y(_this3.props.amplitude * Math.sin(i / _this3.props.frequency) + interpolateValue(animate));
@@ -125,19 +126,23 @@ var LiquidChart = function (_Component) {
         _this3.text.text(Math.round(interpolateValue(animate)));
 
         _this3.wave.attr('d', val(_this3.arr));
-
-        if (t > _this3.props.animationTime) {
-          val.y0(function (d, i) {
-            return _this3.y(_this3.props.amplitude * Math.sin(i / _this3.props.frequency) + _this3.props.value);
-          });
-          _this3.wave.attr('d', val(_this3.arr));
+        _this3.wave.attr('transform', 'translate(' + interpolateWave(animateWave) + ',0)');
+        // the transition has ended
+        if (t >= _this3.props.animationTime) {
+          // make sure that the chart ends in the right position
           animationTimer.stop();
+          _this3.text.text(Math.round(interpolateValue(animate)));
+          _this3.wave.attr('d', val(_this3.arr));
+          _this3.wave.attr('transform', 'translate(' + interpolateWave(1) + ',0)');
           _this3.text.text(Math.round(_this3.props.value));
+          // if the onEnd prop is set then call the function
           if (_this3.props.onEnd !== undefined) {
             _this3.props.onEnd();
           }
         }
       });
+      // Store the old node value so that we can animate from
+      // that point
       this.wave.node().old = this.props.value;
     }
   }, {
@@ -145,10 +150,10 @@ var LiquidChart = function (_Component) {
     value: function render() {
       var _this4 = this;
 
-      var radius = Math.min(this.props.height / 2, this.props.width / 2);
-      var liquidRadius = radius * (this.props.innerRadius - this.props.margin);
+      this.radius = Math.min(this.props.height / 2, this.props.width / 2);
+      this.liquidRadius = this.radius * (this.props.innerRadius - this.props.margin);
       // set the outerArc arc parameters
-      var outerArc = (0, _d3Shape.arc)().outerRadius(this.props.outerRadius * radius).innerRadius(this.props.innerRadius * radius).startAngle(0).endAngle(Math.PI * 2);
+      var outerArc = (0, _d3Shape.arc)().outerRadius(this.props.outerRadius * this.radius).innerRadius(this.props.innerRadius * this.radius).startAngle(0).endAngle(Math.PI * 2);
       var cX = this.props.width * this.props.offsetX / 2;
       var cY = this.props.height * this.props.offsetY / 2;
 
@@ -200,7 +205,7 @@ var LiquidChart = function (_Component) {
             clipPath: 'url(#clip)'
           },
           _react2.default.createElement('circle', {
-            r: liquidRadius,
+            r: this.liquidRadius,
             fill: this.props.liquid.fill
           }),
           _react2.default.createElement(
@@ -229,7 +234,7 @@ var LiquidChart = function (_Component) {
           stroke: this.props.outerArcStyle.stroke
         }),
         _react2.default.createElement('circle', {
-          r: radius,
+          r: this.radius,
           fill: 'rgba(0,0,0,0)',
           stroke: 'rgba(0,0,0,0)',
           style: { pointerEvents: 'all' },
@@ -285,7 +290,8 @@ LiquidChart.propTypes = {
   // Font size for the number
   fontSize: _react.PropTypes.string,
   // font size for the percentage
-  smallFontSize: _react.PropTypes.string
+  smallFontSize: _react.PropTypes.string,
+  animateWaves: _react.PropTypes.bool
 };
 LiquidChart.defaultProps = {
   value: 65,
