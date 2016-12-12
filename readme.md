@@ -46,12 +46,7 @@ class ChartLiquid extends Component {
             value={this.state.value}
 
           />
-          <Gradient>
-            <stop stopColor="someColor" offset="somepercentage%"/>
-            <stop stopColor="someColor" offset="somepercentage%"/>
-            <stop stopColor="someColor" offset="somepercentage%"/>
-            <stop stopColor="someColor" offset="somepercentage%"/>
-          </Gradient>
+          <Gradient />
         </Chart>
       </div>
     );
@@ -67,9 +62,9 @@ The Chart container component, calculates width and height and renders the svg a
 #### Chart PropTypes
 ##### responsive : boolean
 Makes the chart listen to changes in screen size and resize the chart on screen resize
-##### gradient : string
-If liquid is gradient then set the string to something, it's used to set the fill
-### Liqiud
+##### gradient : boolean
+If gradient then the liquid will take the values in the Gradient element
+### Liquid
 The Liquid Component has all the visable Components
 #### Liquid PropTypes
 ##### value : number
@@ -96,14 +91,14 @@ the wave height
 ##### frequency : number
 The inverse of frequency actually, the higher the number the smother the wave
 ##### waveScaleLimit : bool
-scaling the wave when it´s close to 0 or 100 so the area does not appear empty at those values
+scaling the wave when it´s close to 0 or 100 so the area does not appear empty or full at those values
 ##### fontSize : string
 The font size attribute for the number
 ##### smallFontSize : string
 font size for the percentage sign
-### Gradient
+### gradient
 The Gradient is just a thin wrapper for linearGradient it takes in stop children,
-if none are set it makes a gradient out of the shades of the liquid.fill proptype
+if none are set it makes a gradient out of different shades of the liquid.fill proptype
 
 ## Development
 Testing done with Jest

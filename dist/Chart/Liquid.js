@@ -28,6 +28,8 @@ var _d3Color = require('d3-color');
 
 var d3Color = _interopRequireWildcard(_d3Color);
 
+require('d3-transition');
+
 var _ReactIf = require('./ReactIf');
 
 var _ReactIf2 = _interopRequireDefault(_ReactIf);
@@ -138,10 +140,14 @@ var LiquidChart = function (_Component) {
       } else {
         waveScale = (0, _d3Scale.scaleLinear)().range([this.props.amplitude, this.props.amplitude]).domain([0, 50, 100]);
       }
+
+      if (this.props.animateWaves) {
+        this.animateWave();
+      }
       // the d3 timer goes from from 0 to 1
       var time = (0, _d3Scale.scaleLinear)().range([0, 1]).domain([0, this.props.animationTime]);
+      // if the wave does not have old value then interpolate from 0 to value else old to value
       var interpolateValue = (0, _d3Interpolate.interpolate)(this.wave.node().old || 0, this.props.value);
-      var interpolateWave = (0, _d3Interpolate.interpolate)(0, this.liquidRadius);
 
       // start animation
       var animationTimer = (0, _d3Timer.timer)(function (t) {
@@ -156,11 +162,6 @@ var LiquidChart = function (_Component) {
         _this3.text.text(Math.round(value));
         // set the wave data attribute
         _this3.wave.attr('d', val(_this3.arr));
-        // If we are making waves then set the easing and move the path
-        if (_this3.props.animateWaves) {
-          var animateWave = ease.easeSinInOut(time(t));
-          _this3.wave.attr('transform', 'translate(' + interpolateWave(animateWave) + ',0)');
-        }
         // the transition has ended
         if (t >= _this3.props.animationTime) {
           // stop the timer
@@ -170,14 +171,8 @@ var LiquidChart = function (_Component) {
           val.y0(function (d, i) {
             return _this3.y(waveScale(_this3.props.value) * Math.sin(i / _this3.props.frequency) + interpolateValue(1));
           });
-
           _this3.text.text(Math.round(interpolateValue(1)));
-
           _this3.wave.attr('d', val(_this3.arr));
-          // do the same if we are animating waves
-          if (_this3.props.animateWaves) {
-            _this3.wave.attr('transform', 'translate(' + interpolateWave(1) + ',0)');
-          }
           // if the onEnd prop is set then call the function
           if (_this3.props.onEnd !== undefined) {
             _this3.props.onEnd();
@@ -185,13 +180,25 @@ var LiquidChart = function (_Component) {
         }
       });
       // Store the old node value so that we can animate from
-      // that point
+      // that point again
       this.wave.node().old = this.props.value;
+    }
+    // animate the wave from 0 to liquidRadius repeat
+    // not perfect..
+
+  }, {
+    key: 'animateWave',
+    value: function animateWave() {
+      var _this4 = this;
+
+      this.wave.attr('transform', 'translate(0,0)').transition().duration(2000).ease(ease.easeLinear).attr('transform', 'translate(' + this.liquidRadius + ',0)').on('end', function () {
+        _this4.animateWave();
+      });
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.radius = Math.min(this.props.height / 2, this.props.width / 2);
       this.liquidRadius = this.radius * (this.props.innerRadius - this.props.margin);
@@ -211,7 +218,7 @@ var LiquidChart = function (_Component) {
         {
           transform: 'translate(' + cX + ',' + cY + ')',
           ref: function ref(c) {
-            _this4.container = c;
+            _this5.container = c;
           }
         },
         _react2.default.createElement(
@@ -224,7 +231,7 @@ var LiquidChart = function (_Component) {
             },
             _react2.default.createElement('path', {
               ref: function ref(c) {
-                _this4.clipPath = c;
+                _this5.clipPath = c;
               }
             })
           )
@@ -250,7 +257,7 @@ var LiquidChart = function (_Component) {
           stroke: 'rgba(0,0,0,0)',
           style: { pointerEvents: 'all' },
           onClick: function onClick() {
-            _this4.props.onClick();
+            _this5.props.onClick();
           }
         })
       );

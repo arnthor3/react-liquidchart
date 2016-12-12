@@ -6,6 +6,7 @@ import { select, selectAll } from 'd3-selection';
 import { scaleLinear } from 'd3-scale';
 import { interpolate } from 'd3-interpolate';
 import * as d3Color from 'd3-color';
+import 'd3-transition';
 import ReactIf from './ReactIf';
 import Text from './Text';
 
@@ -159,10 +160,14 @@ export default class LiquidChart extends Component {
                     .range([this.props.amplitude, this.props.amplitude])
                     .domain([0, 50, 100]);
     }
+
+    if (this.props.animateWaves) {
+      this.animateWave();
+    }
     // the d3 timer goes from from 0 to 1
     const time = scaleLinear().range([0, 1]).domain([0, this.props.animationTime]);
+    // if the wave does not have old value then interpolate from 0 to value else old to value
     const interpolateValue = interpolate(this.wave.node().old || 0, this.props.value);
-    const interpolateWave = interpolate(0, this.liquidRadius);
 
     // start animation
     const animationTimer = timer((t) => {
@@ -177,11 +182,6 @@ export default class LiquidChart extends Component {
       this.text.text(Math.round(value));
       // set the wave data attribute
       this.wave.attr('d', val(this.arr));
-      // If we are making waves then set the easing and move the path
-      if (this.props.animateWaves) {
-        const animateWave = ease.easeSinInOut(time(t));
-        this.wave.attr('transform', `translate(${interpolateWave(animateWave)},0)`);
-      }
       // the transition has ended
       if (t >= this.props.animationTime) {
         // stop the timer
@@ -191,14 +191,8 @@ export default class LiquidChart extends Component {
         val.y0((d, i) => this.y(
           (waveScale(this.props.value) * Math.sin(i / this.props.frequency))
           + interpolateValue(1)));
-
         this.text.text(Math.round(interpolateValue(1)));
-
         this.wave.attr('d', val(this.arr));
-        // do the same if we are animating waves
-        if (this.props.animateWaves) {
-          this.wave.attr('transform', `translate(${interpolateWave(1)},0)`);
-        }
         // if the onEnd prop is set then call the function
         if (this.props.onEnd !== undefined) {
           this.props.onEnd();
@@ -206,8 +200,21 @@ export default class LiquidChart extends Component {
       }
     });
     // Store the old node value so that we can animate from
-    // that point
+    // that point again
     this.wave.node().old = this.props.value;
+  }
+  // animate the wave from 0 to liquidRadius repeat
+  // not perfect..
+  animateWave() {
+    this.wave
+      .attr('transform', 'translate(0,0)')
+      .transition()
+      .duration(2000)
+      .ease(ease.easeLinear)
+      .attr('transform', `translate(${this.liquidRadius},0)`)
+      .on('end', () => {
+        this.animateWave();
+      });
   }
 
   render() {
