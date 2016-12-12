@@ -32,7 +32,6 @@ export default class Chart extends Component {
   }
   /*
     register the throttled resize function if responsive is set to true
-
    */
   componentDidMount() {
     if (this.props.responsive === true) {

@@ -9,7 +9,7 @@ npm i -S react-liquidchart
 ``` js
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import Liquid from 'react-liquidchartr';
+import Liquid from 'react-liquidchart';
 
 class Chart extends Component {
   constructor() {
@@ -50,6 +50,8 @@ render(<Chart />, document.getElementById('app'));
 a percentage from 0 to 100
 ### animate : boolean
 if true then animate
+### animateWaves : boolean
+if true then animate waves
 ### onEnd : function
 A function that is called when animation is done
 ### outerArcStyle : Object { fill: string, stroke: string }
@@ -71,7 +73,6 @@ Makes the chart listen to changes in screen size and resize the chart on screen 
 The font size attribute for the number
 ### smallFontSize : string
 font size for the percentage sign
-
 
 ## Development
 Testing done with Jest

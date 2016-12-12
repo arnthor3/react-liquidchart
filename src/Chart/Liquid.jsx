@@ -56,6 +56,7 @@ export default class LiquidChart extends Component {
     fontSize: PropTypes.string,
     // font size for the percentage
     smallFontSize: PropTypes.string,
+    animateWaves: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -110,7 +111,7 @@ export default class LiquidChart extends Component {
     const width = (this.props.width * this.props.innerRadius) / 2;
     const height = (this.props.height * (this.props.innerRadius - this.props.margin)) / 2;
 
-    this.x = scaleLinear().range([-width, width]).domain([0, 100]);
+    this.x = scaleLinear().range([-this.liquidRadius * 2, this.liquidRadius * 2]).domain([0, 100]);
     this.y = scaleLinear().range([height, -height]).domain([0, 100]);
   }
 
@@ -120,7 +121,8 @@ export default class LiquidChart extends Component {
     const val = area()
                     .x((d, i) => this.x(i))
                     .y0((d, i) => this.y(
-                      (this.props.amplitude * Math.sin(i / 4)) + this.props.value))
+                      (this.props.amplitude * Math.sin(i / this.props.frequency)) +
+                      this.props.value))
                     .y1(d => this.props.height / 2);
     this.wave.attr('d', val(this.arr));
     this.text.text(Math.round(this.props.value));
@@ -135,9 +137,10 @@ export default class LiquidChart extends Component {
 
     const time = scaleLinear().range([0, 1]).domain([0, this.props.animationTime]);
     const interpolateValue = interpolate(this.wave.node().old || 0, this.props.value);
-
+    const interpolateWave = interpolate(0, this.liquidRadius);
     const animationTimer = timer((t) => {
       const animate = this.props.ease(time(t));
+      const animateWave = ease.easeSinInOut(time(t));
 
       val.y0((d, i) => this.y(
         (this.props.amplitude * Math.sin(i / this.props.frequency))
@@ -146,30 +149,33 @@ export default class LiquidChart extends Component {
       this.text.text(Math.round(interpolateValue(animate)));
 
       this.wave.attr('d', val(this.arr));
-
-      if (t > this.props.animationTime) {
-        val.y0((d, i) => this.y(
-          (this.props.amplitude * Math.sin(i / this.props.frequency))
-          + this.props.value,
-        ));
-        this.wave.attr('d', val(this.arr));
+      this.wave.attr('transform', `translate(${interpolateWave(animateWave)},0)`);
+      // the transition has ended
+      if (t >= this.props.animationTime) {
+        // make sure that the chart ends in the right position
         animationTimer.stop();
+        this.text.text(Math.round(interpolateValue(animate)));
+        this.wave.attr('d', val(this.arr));
+        this.wave.attr('transform', `translate(${interpolateWave(1)},0)`);
         this.text.text(Math.round(this.props.value));
+        // if the onEnd prop is set then call the function
         if (this.props.onEnd !== undefined) {
           this.props.onEnd();
         }
       }
     });
+    // Store the old node value so that we can animate from
+    // that point
     this.wave.node().old = this.props.value;
   }
 
   render() {
-    const radius = Math.min(this.props.height / 2, this.props.width / 2);
-    const liquidRadius = radius * (this.props.innerRadius - this.props.margin);
+    this.radius = Math.min(this.props.height / 2, this.props.width / 2);
+    this.liquidRadius = this.radius * (this.props.innerRadius - this.props.margin);
     // set the outerArc arc parameters
     const outerArc = arc()
-                      .outerRadius(this.props.outerRadius * radius)
-                      .innerRadius(this.props.innerRadius * radius)
+                      .outerRadius(this.props.outerRadius * this.radius)
+                      .innerRadius(this.props.innerRadius * this.radius)
                       .startAngle(0)
                       .endAngle(Math.PI * 2);
     const cX = (this.props.width * this.props.offsetX) / 2;
@@ -202,7 +208,7 @@ export default class LiquidChart extends Component {
           clipPath="url(#clip)"
         >
           <circle
-            r={liquidRadius}
+            r={this.liquidRadius}
             fill={this.props.liquid.fill}
           />
           <text
@@ -221,7 +227,7 @@ export default class LiquidChart extends Component {
           stroke={this.props.outerArcStyle.stroke}
         />
         <circle
-          r={radius}
+          r={this.radius}
           fill="rgba(0,0,0,0)"
           stroke="rgba(0,0,0,0)"
           style={{ pointerEvents: 'all' }}
