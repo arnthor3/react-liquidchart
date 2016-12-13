@@ -1,11 +1,14 @@
-# React-Liquidchart
-A Nice looking liquid chart done with d3 and react
+## React-liquidchart
+A Nice looking liquid chart done with d3 and react, based off http://bl.ocks.org/brattonc/5e5ce9beee483220e2f6
 
-## Usage
-Download the package from npm
-``` sh
-npm i -S react-liquidchart
+I will put up an example page when I am finished with all the graph types that I want to do and use - about 4 -5 more.
+
+### Install from NPM
+```sh
+npm install react-liquidchart
 ```
+
+### Usage
 ``` js
 import React, { Component } from 'react';
 import { render } from 'react-dom';
@@ -52,65 +55,57 @@ class ChartLiquid extends Component {
     );
   }
 }
-
 render(<ChartLiquid />, document.getElementById('app'));
 ```
 
 ## Components
+This chart is broken down into components but I will make a easy to use single component that will make it easier to use, later on.
+
 ### Chart
-The Chart container component, calculates width and height and renders the svg and charts
-#### Chart PropTypes
-##### responsive : boolean
-Makes the chart listen to changes in screen size and resize the chart on screen resize
-##### gradient : boolean
-If gradient then the liquid will take the values in the Gradient element
+This is the container that renders the SVG element and the children.
+It can keep the chart responsive so you dont have to worry about the width and heigth if you have a responsive layout.
+### Chart PropTypes
+Name|Type|Default|Description|
+---|---|---|---
+responsive|boolean|*true*| Rerenders the chart on screen resize
+gradient|boolean|*false*|If you want a more watery liquid you can add a lineargradient but you have to set this value to true and also add the component
 ### Liquid
-The Liquid Component has all the visable Components
-#### Liquid PropTypes
-##### value : number
-a percentage from 0 to 100
-##### animate : boolean
-if true then animate
-##### animateWaves : boolean
-if true then animate waves
-##### gradient : boolean
-If true then add gradient effect on liquid based on liquid.fill color
-##### onEnd : function
-A function that is called when animation is done
-##### outerArcStyle : Object { fill: string, stroke: string }
-A fill and stroke for the outer arc, defaults to fill: 'rgb(23, 139, 202)'
-##### liquid : Object { fill: string, stroke: string }
-A fill and stroke for the liquid, defaults to fill: 'rgb(23, 139, 202)'
-##### liquidNumber : Object { fill: string, stroke: string }
-A fill and stroke for the part of the number that is in liquid
-defaults to fill: 'rgb(164, 219, 248)',
-##### number : Object { fill: string, stroke: string }
-A fill and stroke for the 'dry' part of the number default to fill: 'rgb(4, 86, 129)'
-##### amplitude : number
-the wave height
-##### frequency : number
-The inverse of frequency actually, the higher the number the smother the wave
-##### waveScaleLimit : bool
-scaling the wave when it´s close to 0 or 100 so the area does not appear empty or full at those values
-##### fontSize : string
-The font size attribute for the number
-##### smallFontSize : string
-font size for the percentage sign
-### gradient
-The Gradient is just a thin wrapper for linearGradient it takes in stop children,
-if none are set it makes a gradient out of different shades of the liquid.fill proptype
+This is the main element that renders all the visable elements in the chart along with one defs for the clipPath.
 
-## Development
-Testing done with Jest
-``` sh
-npm run test
-```
+### Liquid PropTypes
+Name|Type|Default|Description|
+---|---|---|---
+Value|number|*65*|The value
+animate|bool|*false*|If true then the chart is animated
+animateWaves|bool|*false*|if true then the waves will loop between the liquid radius and 0 forever, still a minor bug in this.
+outerRadius|number|*0.9*|This is the outerRadius of the chart where 1 would be 100% of the radius and 0 would be 0% of the radius..
+innerRadius|number|*0.8*|The innerwidth of the outerpath surronding the liquid, again 0.8 would be 80% of the radius.
+margin|number|*0.025*|The margin between the outer path and the liquid, here 0.025 would be 2.5%
+ease|function|*d3.ease.easeCubicInOut*|easing function for the animation will change this to string eventually.
+animationTime|number|2000| milliseconds for animation length
+amplitude|number|2|The Amplitude X * sine(frequency) part of the formula
+frequency|number|4|Still have to fix this one, this is actually the inverse of frequency it's sine(x/freq) so the higher the number the smoother the wave.
+waveScaleLimit|bool|true|This is in the original, this will create a scale that limits the wave height close to 0 or 100
+outerArcStyle|shape|{ fill: 'rgb(23,139,202)'}| The style of the outerarc fill and stroke
+liquid|shape|{ fill: 'rgb(23, 139, 202)'}| The style of the liquid, fill and stroke
+liquidNumber|shape|{fill: 'rgb(164, 219, 248)'}| The style of the number that is in the liquid, fill and stroke
+number|shape|{fill: 'rgb(4, 86, 129)',}| The style of the number that is not in the liquid, fill and stroke
 
-Run the webpack dev server
-``` sh
-npm run start
-```
+### Gradient
+This component is nothing more than an ultra thin wrapper around a linearGradient defs.
 
-#Credits
-This is a react remake and slightly altered version of http://bl.ocks.org/brattonc/5e5ce9beee483220e2f6
-So a big thanks to Chris Bratton for making the original!
+It takes in stop to create the gradient effect.
+
+But by default it uses shades of the liquid.fill color to create a ultra simple gradient.
+### Gradient PropTypes
+Name|Type|Default|Description|
+---|---|---|---
+x1|number|*0*|The X start coordinate
+x2|number|*100*|The X end coordinate
+y1|number|*0*|The Y start coordinate
+y2|number|*0*|The Y end coordinate
+
+### TODO
+1. Write tests
+
+This software was available initially under the BSD-3-Clause and it still is.
