@@ -126,6 +126,8 @@ var LiquidChart = function (_Component) {
     value: function animate() {
       var _this3 = this;
 
+      // set the ease
+      var easeFn = ease[this.props.ease] ? ease[this.props.ease] : ease.easeCubicInOut;
       // ready the chart and do calculations
       this.setRes();
       var val = (0, _d3Shape.area)().x(function (d, i) {
@@ -152,7 +154,7 @@ var LiquidChart = function (_Component) {
       // start animation
       var animationTimer = (0, _d3Timer.timer)(function (t) {
         // set the easing
-        var animate = _this3.props.ease(time(t));
+        var animate = easeFn(time(t));
         var value = interpolateValue(animate);
         // calculate the wave
         val.y0(function (d, i) {
@@ -184,16 +186,26 @@ var LiquidChart = function (_Component) {
       this.wave.node().old = this.props.value;
     }
     // animate the wave from 0 to liquidRadius repeat
-    // not perfect..
+    // not perfect but works
 
   }, {
     key: 'animateWave',
     value: function animateWave() {
       var _this4 = this;
 
-      this.wave.attr('transform', 'translate(0,0)').transition().duration(2000).ease(ease.easeLinear).attr('transform', 'translate(' + this.liquidRadius + ',0)').on('end', function () {
-        _this4.animateWave();
-      });
+      // put a lock on animate function
+      // so it's not called often
+      if (!this.isOn) {
+        (function () {
+          _this4.isOn = true;
+          var anime = function anime() {
+            _this4.wave.attr('transform', 'translate(0,0)').transition().duration(2000).ease(ease.easeLinear).attr('transform', 'translate(' + _this4.liquidRadius + ',0)').on('end', function () {
+              anime();
+            });
+          };
+          anime();
+        })();
+      }
     }
   }, {
     key: 'render',
@@ -284,8 +296,8 @@ LiquidChart.propTypes = {
   margin: _react.PropTypes.number,
   // callback function called when animation is done
   onEnd: _react.PropTypes.func,
-  // d3 easing functions
-  ease: _react.PropTypes.func,
+  // string
+  ease: _react.PropTypes.string,
   // animation Time
   animationTime: _react.PropTypes.number,
   // The fill and stroke for the outer arc
@@ -307,8 +319,8 @@ LiquidChart.propTypes = {
   onClick: _react.PropTypes.func,
   // if true then animate waves
   animateWaves: _react.PropTypes.bool,
-  // the gradient string
-  gradient: _react.PropTypes.string
+  // if this string has value then the gradient will be set
+  gradient: _react.PropTypes.bool
 };
 LiquidChart.defaultProps = {
   value: 65,
@@ -316,7 +328,7 @@ LiquidChart.defaultProps = {
   outerRadius: 0.9,
   innerRadius: 0.8,
   margin: 0.025,
-  ease: ease.easeCubicInOut,
+  ease: 'easeCubicInOut',
   animationTime: 2000,
   amplitude: 2,
   waveScaleLimit: true,

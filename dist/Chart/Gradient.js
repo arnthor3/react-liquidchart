@@ -28,7 +28,7 @@ var Defs = function Defs(_ref) {
   var rendered = children;
   if (!children || children.length === 0) {
     var col = d3Color.color(fill);
-    rendered = [_react2.default.createElement('stop', { key: 0, stopColor: col.darker(0.5), offset: '0%' }), _react2.default.createElement('stop', { key: 1, stopColor: col.darker(0.15), offset: '25%' }), _react2.default.createElement('stop', { key: 2, stopColor: fill, offset: '50%' }), _react2.default.createElement('stop', { key: 3, stopColor: col.brighter(0.45), offset: '65%' }), _react2.default.createElement('stop', { key: 4, stopColor: col.brighter(1), offset: '100%' })];
+    rendered = [_react2.default.createElement('stop', { key: 0, stopColor: col.darker(1), offset: '0%' }), _react2.default.createElement('stop', { key: 1, stopColor: col.darker(0.5), offset: '25%' }), _react2.default.createElement('stop', { key: 2, stopColor: fill, offset: '50%' }), _react2.default.createElement('stop', { key: 3, stopColor: col.brighter(0.5), offset: '65%' }), _react2.default.createElement('stop', { key: 4, stopColor: col.brighter(1), offset: '100%' })];
   }
   return _react2.default.createElement(
     'defs',
@@ -59,8 +59,8 @@ Defs.propTypes = {
 
 Defs.defaultProps = {
   x1: '0%',
-  x2: '100%',
-  y1: '0%',
+  x2: '0%',
+  y1: '100%',
   y2: '0%'
 };
 

@@ -17,17 +17,13 @@ var _Gradient = require('./Chart/Gradient');
 
 var _Gradient2 = _interopRequireDefault(_Gradient);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _LiquidChart = require('./Chart/LiquidChart');
 
-var LiquidChart = function LiquidChart(props) {
-  return React.createElement(
-    _Chart2.default,
-    props,
-    React.createElement(_Liquid2.default, props),
-    React.createElement(_Gradient2.default, props)
-  );
-};
+var _LiquidChart2 = _interopRequireDefault(_LiquidChart);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.Chart = _Chart2.default;
 exports.Liquid = _Liquid2.default;
 exports.Gradient = _Gradient2.default;
+exports.default = _LiquidChart2.default;

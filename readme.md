@@ -58,13 +58,12 @@ class ChartLiquid extends Component {
 render(<ChartLiquid />, document.getElementById('app'));
 ```
 
-### Simpler version but with loss of control
+### Simpler version but with no gradient control
 
-### Usage
 ``` js
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import LiquidChart from '../src/index';
+import LiquidChart from 'react-liquidchart';
 
 class ChartLiquid extends Component {
   constructor() {
@@ -107,7 +106,7 @@ render(<ChartLiquid />, document.getElementById('app'));
 ```
 
 ## Components
-This chart is broken down into components but I will make a easy to use single component that will make it easier to use, later on.
+This chart is broken down into components.
 
 ### Chart
 This is the container that renders the SVG element and the children.
@@ -118,7 +117,7 @@ Name|Type|Default|Description|
 responsive|boolean|*true*| Rerenders the chart on screen resize
 width|boolean|*true*| sets the width of the component, if responsive is true then it will take fill out into the parent container
 height|boolean|*true*| sets the height of the component, the same applies here to the responsive prop.
-gradient|string|*false*|If you want a more watery liquid you can add a lineargradient but you have to set this value to a string variable and also add the component
+gradient|string|*null*|If you want a more watery liquid you can add a lineargradient but you have to set this value to a string variable and also add the component
 ### Liquid
 This is the main element that renders all the visable elements in the chart along with one defs for the clipPath.
 
@@ -154,6 +153,7 @@ x1|number|*0*|The X start coordinate
 x2|number|*0*|The X end coordinate
 y1|number|*100*|The Y start coordinate, remember it starts on the bottom :)
 y2|number|*0*|The Y end coordinate
+
 ### LiquidChart PropTypes
 All of the above propTypes apply, except you cant insert the stop children into the gradient so it just uses
 the liquid.fill color to create the gradient.
@@ -164,4 +164,4 @@ the liquid.fill color to create the gradient.
 2. Break up liquid component
 3. Create a Text Component
 
-This software was available initially under the BSD-3-Clause and it still is.
+This software was available initially under the BSD-2-Clause and it still is.

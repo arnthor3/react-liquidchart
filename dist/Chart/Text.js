@@ -19,7 +19,9 @@ var Text = function Text(props, _ref) {
       textAnchor: "middle",
       fontSize: props.fontSize,
       fill: fill,
-      stroke: stroke
+      stroke: stroke,
+      dy: props.dy,
+      dx: props.dx
     },
     _react2.default.createElement(
       "tspan",
@@ -37,7 +39,9 @@ var Text = function Text(props, _ref) {
 Text.propTypes = {
   value: _react.PropTypes.number,
   smallFontSize: _react.PropTypes.string,
-  fontSize: _react.PropTypes.string
+  fontSize: _react.PropTypes.string,
+  dy: _react.PropTypes.string,
+  dx: _react.PropTypes.string
 };
 
 exports.default = Text;

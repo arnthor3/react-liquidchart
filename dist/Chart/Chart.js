@@ -80,11 +80,18 @@ var Chart = function (_Component) {
   }, {
     key: 'onResize',
     value: function onResize() {
-      var dimension = this.chart.getBoundingClientRect();
-      this.setState({
-        width: dimension.width,
-        height: dimension.height
-      });
+      if (this.props.responsive) {
+        var dimension = this.chart.getBoundingClientRect();
+        this.setState({
+          width: dimension.width,
+          height: dimension.height
+        });
+      } else {
+        this.setState({
+          width: this.props.width,
+          height: this.props.height
+        });
+      }
     }
   }, {
     key: 'render',
@@ -104,6 +111,7 @@ var Chart = function (_Component) {
       var _props = this.props,
           children = _props.children,
           noChildren = _objectWithoutProperties(_props, ['children']);
+
       // Copy the props and the state to pass it down to the children
 
 
@@ -112,14 +120,16 @@ var Chart = function (_Component) {
         height: this.state.height,
         fill: fill
       });
+
       // clone the children and pass in the props and state
-      var cloneChildrenWithProps = (0, _cloneChildren2.default)(this.props.children, props);
+      var cloneChildrenWithProps = (0, _cloneChildren2.default)(this.props.children, props, this.props.childRules);
 
       // make the chart take up the whole width and height of the parent
       var style = {
         width: '100%',
         height: '100%'
       };
+      console.log(this.state.height);
 
       return _react2.default.createElement(
         'div',
@@ -131,7 +141,9 @@ var Chart = function (_Component) {
         },
         _react2.default.createElement(
           _ReactIf2.default,
-          { condition: this.state.height !== null && this.state.height !== 0 },
+          {
+            condition: this.state.height !== undefined && this.state.height !== null && this.state.height !== 0
+          },
           _react2.default.createElement(
             'svg',
             { width: '100%', height: '100%' },
@@ -149,7 +161,11 @@ Chart.propTypes = {
   // enables listen to window width change and rerenders the chart
   // on resize
   responsive: _react.PropTypes.bool,
+  // if not responsive then user can set width and height
+  width: _react.PropTypes.number,
+  height: _react.PropTypes.number,
   // the chart components
-  children: _react.PropTypes.oneOfType([_react.PropTypes.arrayOf(_react.PropTypes.node), _react.PropTypes.node])
+  children: _react.PropTypes.oneOfType([_react.PropTypes.arrayOf(_react.PropTypes.node), _react.PropTypes.node]),
+  childRules: _react.PropTypes.bool
 };
 exports.default = Chart;
