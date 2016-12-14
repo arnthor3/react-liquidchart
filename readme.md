@@ -58,6 +58,54 @@ class ChartLiquid extends Component {
 render(<ChartLiquid />, document.getElementById('app'));
 ```
 
+### Simpler version but with loss of control
+
+### Usage
+``` js
+import React, { Component } from 'react';
+import { render } from 'react-dom';
+import LiquidChart from '../src/index';
+
+class ChartLiquid extends Component {
+  constructor() {
+    super();
+    this.onClick = this.onClick.bind(this);
+    this.state = ({
+      value: (Math.random() * 100),
+    });
+  }
+
+  onClick() {
+    this.setState({
+      value: (Math.random() * 100),
+    });
+  }
+
+  render() {
+    return (
+      <div
+        style={{
+          width: '100%',
+          height: '500px',
+        }}
+      >
+        <LiquidChart
+          responsive
+          gradient="liquid"
+          animate
+          ease='easeBackIn'
+          animateWaves
+          onClick={this.onClick}
+          amplitude={4}
+          value={this.state.value}
+        />
+      </div>
+    );
+  }
+}
+render(<ChartLiquid />, document.getElementById('app'));
+```
+
 ## Components
 This chart is broken down into components but I will make a easy to use single component that will make it easier to use, later on.
 
@@ -68,7 +116,9 @@ It can keep the chart responsive so you dont have to worry about the width and h
 Name|Type|Default|Description|
 ---|---|---|---
 responsive|boolean|*true*| Rerenders the chart on screen resize
-gradient|boolean|*false*|If you want a more watery liquid you can add a lineargradient but you have to set this value to true and also add the component
+width|boolean|*true*| sets the width of the component, if responsive is true then it will take fill out into the parent container
+height|boolean|*true*| sets the height of the component, the same applies here to the responsive prop.
+gradient|string|*false*|If you want a more watery liquid you can add a lineargradient but you have to set this value to a string variable and also add the component
 ### Liquid
 This is the main element that renders all the visable elements in the chart along with one defs for the clipPath.
 
@@ -81,7 +131,7 @@ animateWaves|bool|*false*|if true then the waves will loop between the liquid ra
 outerRadius|number|*0.9*|This is the outerRadius of the chart where 1 would be 100% of the radius and 0 would be 0% of the radius..
 innerRadius|number|*0.8*|The innerwidth of the outerpath surronding the liquid, again 0.8 would be 80% of the radius.
 margin|number|*0.025*|The margin between the outer path and the liquid, here 0.025 would be 2.5%
-ease|function|*d3.ease.easeCubicInOut*|easing function for the animation will change this to string eventually.
+ease|string|*'easeCubicInOut'*|The name of the d3 easing function, other values like, easeBack, easeBackInOut, easeSinInOut, easeExpInOut. See d3 easing page for more ideas.
 animationTime|number|2000| milliseconds for animation length
 amplitude|number|2|The Amplitude X * sine(frequency) part of the formula
 frequency|number|4|Still have to fix this one, this is actually the inverse of frequency it's sine(x/freq) so the higher the number the smoother the wave.
@@ -89,7 +139,7 @@ waveScaleLimit|bool|true|This is in the original, this will create a scale that 
 outerArcStyle|shape|{ fill: 'rgb(23,139,202)'}| The style of the outerarc fill and stroke
 liquid|shape|{ fill: 'rgb(23, 139, 202)'}| The style of the liquid, fill and stroke
 liquidNumber|shape|{fill: 'rgb(164, 219, 248)'}| The style of the number that is in the liquid, fill and stroke
-number|shape|{fill: 'rgb(4, 86, 129)',}| The style of the number that is not in the liquid, fill and stroke
+number|shape|{fill: 'rgb(4, 86, 129)'}| The style of the number that is not in the liquid, fill and stroke
 
 ### Gradient
 This component is nothing more than an ultra thin wrapper around a linearGradient defs.
@@ -101,11 +151,17 @@ But by default it uses shades of the liquid.fill color to create a ultra simple 
 Name|Type|Default|Description|
 ---|---|---|---
 x1|number|*0*|The X start coordinate
-x2|number|*100*|The X end coordinate
-y1|number|*0*|The Y start coordinate
+x2|number|*0*|The X end coordinate
+y1|number|*100*|The Y start coordinate, remember it starts on the bottom :)
 y2|number|*0*|The Y end coordinate
+### LiquidChart PropTypes
+All of the above propTypes apply, except you cant insert the stop children into the gradient so it just uses
+the liquid.fill color to create the gradient.
+
 
 ### TODO
-1. Write tests
+1. Write some tests
+2. Break up liquid component
+3. Create a Text Component
 
 This software was available initially under the BSD-3-Clause and it still is.

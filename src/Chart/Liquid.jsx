@@ -36,8 +36,8 @@ export default class LiquidChart extends Component {
     margin: PropTypes.number,
     // callback function called when animation is done
     onEnd: PropTypes.func,
-    // d3 easing functions
-    ease: PropTypes.func,
+    // string
+    ease: PropTypes.string,
     // animation Time
     animationTime: PropTypes.number,
     // The fill and stroke for the outer arc
@@ -59,8 +59,8 @@ export default class LiquidChart extends Component {
     onClick: PropTypes.func,
     // if true then animate waves
     animateWaves: PropTypes.bool,
-    // the gradient string
-    gradient: PropTypes.string,
+    // if this string has value then the gradient will be set
+    gradient: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -69,7 +69,7 @@ export default class LiquidChart extends Component {
     outerRadius: 0.9,
     innerRadius: 0.8,
     margin: 0.025,
-    ease: ease.easeCubicInOut,
+    ease: 'easeCubicInOut',
     animationTime: 2000,
     amplitude: 2,
     waveScaleLimit: true,
@@ -144,6 +144,8 @@ export default class LiquidChart extends Component {
   }
 
   animate() {
+    // set the ease
+    const easeFn = ease[this.props.ease] ? ease[this.props.ease] : ease.easeCubicInOut;
     // ready the chart and do calculations
     this.setRes();
     const val = area()
@@ -172,7 +174,7 @@ export default class LiquidChart extends Component {
     // start animation
     const animationTimer = timer((t) => {
       // set the easing
-      const animate = this.props.ease(time(t));
+      const animate = easeFn(time(t));
       const value = interpolateValue(animate);
       // calculate the wave
       val.y0((d, i) => this.y(
@@ -204,17 +206,25 @@ export default class LiquidChart extends Component {
     this.wave.node().old = this.props.value;
   }
   // animate the wave from 0 to liquidRadius repeat
-  // not perfect..
+  // not perfect but works
   animateWave() {
-    this.wave
-      .attr('transform', 'translate(0,0)')
-      .transition()
-      .duration(2000)
-      .ease(ease.easeLinear)
-      .attr('transform', `translate(${this.liquidRadius},0)`)
-      .on('end', () => {
-        this.animateWave();
-      });
+    // put a lock on animate function
+    // so it's not called often
+    if (!this.isOn) {
+      this.isOn = true;
+      const anime = () => {
+        this.wave
+          .attr('transform', 'translate(0,0)')
+          .transition()
+          .duration(2000)
+          .ease(ease.easeLinear)
+          .attr('transform', `translate(${this.liquidRadius},0)`)
+          .on('end', () => {
+            anime();
+          });
+      };
+      anime();
+    }
   }
 
   render() {

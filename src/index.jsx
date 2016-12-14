@@ -1,12 +1,10 @@
 import Chart from './Chart/Chart';
 import Liquid from './Chart/Liquid';
 import Gradient from './Chart/Gradient';
-
-const LiquidChart = props => (
-  <Chart {...props}>
-    <Liquid {...props} />
-    <Gradient {...props} />
-  </Chart>
-);
+import LiquidChart from './Chart/LiquidChart';
 
 export { Chart, Liquid, Gradient };
+
+export default LiquidChart;
+
+

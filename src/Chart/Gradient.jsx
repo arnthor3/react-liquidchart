@@ -6,10 +6,10 @@ const Defs = ({ x1, x2, y1, y2, gradient, children, fill }) => {
   if (!children || children.length === 0) {
     const col = d3Color.color(fill);
     rendered = [
-      <stop key={0} stopColor={col.darker(0.5)} offset="0%" />,
-      <stop key={1} stopColor={col.darker(0.15)} offset="25%" />,
+      <stop key={0} stopColor={col.darker(1)} offset="0%" />,
+      <stop key={1} stopColor={col.darker(0.5)} offset="25%" />,
       <stop key={2} stopColor={fill} offset="50%" />,
-      <stop key={3} stopColor={col.brighter(0.45)} offset="65%" />,
+      <stop key={3} stopColor={col.brighter(0.5)} offset="65%" />,
       <stop key={4} stopColor={col.brighter(1)} offset="100%" />,
     ];
   }
@@ -43,8 +43,8 @@ Defs.propTypes = {
 
 Defs.defaultProps = {
   x1: '0%',
-  x2: '100%',
-  y1: '0%',
+  x2: '0%',
+  y1: '100%',
   y2: '0%',
 };
 

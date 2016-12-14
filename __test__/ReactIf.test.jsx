@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import ReactIf from '../src/Components/ReactIf';
+import ReactIf from '../src/Chart/ReactIf';
 
 describe('<ReactIf />', () => {
   it('sould render children if true', () => {
