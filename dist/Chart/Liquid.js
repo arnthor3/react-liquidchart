@@ -199,7 +199,7 @@ var LiquidChart = function (_Component) {
         (function () {
           _this4.isOn = true;
           var anime = function anime() {
-            _this4.wave.attr('transform', 'translate(0,0)').transition().duration(2000).ease(ease.easeLinear).attr('transform', 'translate(' + _this4.liquidRadius + ',0)').on('end', function () {
+            _this4.wave.attr('transform', 'translate(0,0)').transition().duration(_this4.props.animationWavesTime).ease(ease.easeLinear).attr('transform', 'translate(' + _this4.liquidRadius + ',0)').on('end', function () {
               anime();
             });
           };
@@ -300,6 +300,8 @@ LiquidChart.propTypes = {
   ease: _react.PropTypes.string,
   // animation Time
   animationTime: _react.PropTypes.number,
+  // animation wave time
+  animationWavesTime: _react.PropTypes.number,
   // The fill and stroke for the outer arc
   outerArcStyle: fillStroke,
   // The fill and stroke for the liquid
@@ -330,6 +332,7 @@ LiquidChart.defaultProps = {
   margin: 0.025,
   ease: 'easeCubicInOut',
   animationTime: 2000,
+  animationWavesTime: 2000,
   amplitude: 2,
   waveScaleLimit: true,
   frequency: 4,

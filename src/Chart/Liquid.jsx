@@ -40,6 +40,8 @@ export default class LiquidChart extends Component {
     ease: PropTypes.string,
     // animation Time
     animationTime: PropTypes.number,
+    // animation wave time
+    animationWavesTime: PropTypes.number,
     // The fill and stroke for the outer arc
     outerArcStyle: fillStroke,
     // The fill and stroke for the liquid
@@ -71,6 +73,7 @@ export default class LiquidChart extends Component {
     margin: 0.025,
     ease: 'easeCubicInOut',
     animationTime: 2000,
+    animationWavesTime: 2000,
     amplitude: 2,
     waveScaleLimit: true,
     frequency: 4,
@@ -216,7 +219,7 @@ export default class LiquidChart extends Component {
         this.wave
           .attr('transform', 'translate(0,0)')
           .transition()
-          .duration(2000)
+          .duration(this.props.animationWavesTime)
           .ease(ease.easeLinear)
           .attr('transform', `translate(${this.liquidRadius},0)`)
           .on('end', () => {

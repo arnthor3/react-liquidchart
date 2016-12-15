@@ -84,7 +84,10 @@ export default class Chart extends Component {
     });
 
     // clone the children and pass in the props and state
-    const cloneChildrenWithProps = cloneComponents(this.props.children, props, this.props.childRules);
+    const cloneChildrenWithProps = cloneComponents(
+      this.props.children,
+       props,
+      this.props.childRules);
 
     // make the chart take up the whole width and height of the parent
     const style = {

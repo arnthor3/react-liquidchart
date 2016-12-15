@@ -6,5 +6,3 @@ import LiquidChart from './Chart/LiquidChart';
 export { Chart, Liquid, Gradient };
 
 export default LiquidChart;
-
-
