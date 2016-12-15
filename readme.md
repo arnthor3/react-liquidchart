@@ -147,18 +147,18 @@ This component is nothing more than an ultra thin wrapper around a linearGradien
 
 It takes in stop to create the gradient effect.
 
-But by default it uses shades of the liquid.fill color to create a ultra simple gradient.
+But by default it uses shades of the liquid.fill color to create a simple gradient.
 
 ### Gradient PropTypes
 Name|Type|Default|Description|
 ---|---|---|---
 x1|number|*0*|The X start coordinate
 x2|number|*0*|The X end coordinate
-y1|number|*100*|The Y start coordinate, remember it starts on the bottom :)
+y1|number|*100*|The Y start coordinate, remember it starts on the bottom
 y2|number|*0*|The Y end coordinate
 #### Example
 ```js
- // Create a Gradient effect coing from bottom left to top right
+ // Create a Gradient effect going from the bottom left to the top right part of the liquid area
  <Gradient
    x1={0}
    y1={100}
@@ -184,5 +184,3 @@ the liquid.fill color to create the gradient.
 
 This software was available initially under the BSD-2-Clause and it still is.
 Please see the original and put a github like on it at https://gist.github.com/brattonc/5e5ce9beee483220e2f6
-
-arnthor3@gmail.com
