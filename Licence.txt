@@ -1,4 +1,4 @@
-Original
+Original Copyright Curtis Bratton
 
 BSD 2-Clause License
 
@@ -28,7 +28,7 @@ Open source under BSD 2-clause
 Copyright (c) 2015, Curtis Bratton
 All rights reserved.
 
-Modfications licence
+Modfications licence Arnthor Agustsson
 
 BSD 2-Clause License
 
@@ -55,6 +55,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 React Version
 
 Open source under BSD 2-clause
-Copyright (c) 2016 Arnthor Agustsson
+Copyright (c) 2017 Arnthor Agustsson
 All rights reserved.
 

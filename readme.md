@@ -12,7 +12,7 @@ npm install react-liquidchart
 ``` js
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import { Chart, Liquid, Gradient } from 'react-liquidchart';
+import LiquidChart from 'react-liquidchart';
 
 class ChartLiquid extends Component {
   constructor() {
@@ -37,17 +37,14 @@ class ChartLiquid extends Component {
           height: '500px',
         }}
       >
-        <Chart
+        <LiquidChart
           responsive
           gradient="liquid"
-        >
-          <Liquid
-            animate
-            animateWaves
-            onClick={this.onClick}
-            amplitude={4}
-            value={this.state.value}
-
+          animate
+          animateWaves
+          onClick={this.onClick}
+          amplitude={4}
+          value={this.state.value}
           />
           <Gradient />
         </Chart>
@@ -179,7 +176,12 @@ the liquid.fill color to create the gradient.
 ### TODO
 1. Write some tests
 2. Create a Text Component
-
+waveScaleY(
+  Math.sin(
+    Math.PI*2*config.waveOffset*-1 + 
+    Math.PI*2*(1-config.waveCount) + 
+    d.y*2*Math.PI));
+})
 #### Licence
 
 This software was available initially under the BSD-2-Clause and it still is.

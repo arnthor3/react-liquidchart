@@ -1,8 +1,10 @@
-import Chart from './Chart/Chart';
+import Shape from './Chart/Shape';
+import Gradient from './Chart/Gradients';
 import Liquid from './Chart/Liquid';
-import Gradient from './Chart/Gradient';
+import Clip from './Chart/Clip';
+import Text from './Chart/Text';
 import LiquidChart from './Chart/LiquidChart';
 
-export { Chart, Liquid, Gradient };
+export { Shape, Gradient, Clip, Liquid, Text };
 
 export default LiquidChart;
