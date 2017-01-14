@@ -1,15 +1,13 @@
 import React, { Component, PropTypes } from 'react';
-import cloneChildren from 'react-offcharts-core/dist/Utils/cloneChildren';
+import cloneChildren from 'react-offcharts-core/Utils/cloneChildren';
+import arcDim from 'react-offcharts-core/Helpers/arcDimension';
+import { round, splitNumber } from 'react-offcharts-core/Utils/numbers';
 import { select, selectAll } from 'd3-selection';
 import { scaleLinear } from 'd3-scale';
-import { timer } from 'd3-timer';
 import * as ease from 'd3-ease';
 import 'd3-transition';
 import { interpolate } from 'd3-interpolate';
 import * as ch from '../Helpers/constants';
-
-import * as ah from '../Helpers/animationHelpers';
-
 import * as dh from '../Helpers/dimensions';
 
 export default class Liquid extends Component {
@@ -18,19 +16,15 @@ export default class Liquid extends Component {
       PropTypes.string,
       PropTypes.number,
     ]),
-    outerBoundaries: PropTypes.number,
-    innerBoundaries: PropTypes.number,
+    outerBound: PropTypes.number,
+    innerBound: PropTypes.number,
     animationEase: PropTypes.string,
     animationTime: PropTypes.number,
     animationWavesTime: PropTypes.number,
     frequency: PropTypes.number,
-    width: PropTypes.number,
-    height: PropTypes.number,
   }
 
   static defaultProps = {
-    animationTime: 2000,
-    animationEase: 'easeCubicInOut',
     amplitude: 1,
     liquidMargin: 0.005,
     waveScaleLimit: true,
@@ -40,10 +34,10 @@ export default class Liquid extends Component {
   }
   constructor(props) {
     super();
-    if (props.innerBoundaries > props.outerBoundaries) {
-      throw new Error(ch.INNER_BIGGER_THAN_OUTER);
-    } else if (props.outerBoundaries > 1) {
-      throw new Error(ch.OUTER_BIGGER_THAN_ONE);
+    if (props.innerBound > props.outerBound) {
+      console.warn(ch.INNER_BIGGER_THAN_OUTER);
+    } else if (props.outerBound > 1) {
+      console.warn(ch.OUTER_BIGGER_THAN_ONE);
     }
     this.iter = 0;
   }
@@ -59,7 +53,7 @@ export default class Liquid extends Component {
   getEasing() {
     const animationEase = ease[this.props.animationEase];
 
-    if (animationEase === 'function') {
+    if (typeof animationEase === 'function') {
       return animationEase;
     }
 
@@ -76,30 +70,7 @@ export default class Liquid extends Component {
     return animationTime;
   }
 
-  animateWaves() {
-    const arr = new Array(ch.SAMPLING);
-    const container = select(this.container);
-    const wave = container.select('clipPath').select('path');
-    const waveScale = dh.getWaveScaleLimit(this.props);
-    const { waveOne, waveTwo } = dh.getWaves(this.props);
-    const anime = () => {
-      wave
-        .transition()
-        .ease(ease.easeSin)
-        .duration(this.props.animationWavesTime)
-        .attr('d', waveOne(arr))
-        .transition()
-        .ease(ease.easeSinInOut)
-        .duration(this.props.animationWavesTime)
-        .attr('d', waveTwo(arr))
-        .on('end', () => {
-          anime();
-        });
-    };
-    anime();
-  }
-
-  animate() {
+  animateBackAndForth() {
     // Set the sampling array to a new array of X times undefines
     // does not matter because we only use zeros
     const arr = new Array(ch.SAMPLING);
@@ -113,90 +84,159 @@ export default class Liquid extends Component {
     // Get the easing type, if the user misspelled the easing or
     const animationEase = this.getEasing();
 
+    // Get the animationtime
     const animationTime = this.getAnimationTime();
 
+    // get the wavescale
     const waveScale = dh.getWaveScaleLimit(this.props);
 
-    const { waveArea, x, y, w, h } = dh.getWaveArea(this.props);
+    // get the scales and the area function
+    const { waveArea, x, y, w, h } = dh.getWaveArea(this.props); // { waveArea, x, y, w, h }
 
-    const time = scaleLinear().range([0, 1]).domain([0, this.props.animationTime]);
-    const sine = (a, i, f, s) => a * Math.sin(((Math.PI * 2) / s) * i * f);
-    // waveArea.y0((d, i) => y(sine(waveScale(this.props.value), i, this.props.frequency) + this.props.value));
-    const animation = (t, e) => {
+    const { forthAmplitude, backAmplitude, forthFrequency, backFrequency } = dh.getBackAndForth();
+
+    const textValue = container.selectAll(`.${ch.TEXT_VALUE}`);
+    const textDecimal = container.selectAll(`.${ch.TEXT_DECIMAL}`);
+
+    const animation = () => {
       wave
         .transition()
-        .duration(t || this.props.animationWavesTime)
-        .ease(e || ease.easeSin)
+        .duration(this.props.animationWavesTime)
+        .ease(ease.easeSinInOut)
         .attrTween('d', () => {
           wave.node().M = 1;
-          const old = (wave.node().old) || 0;
-          const forth = (
-            scaleLinear()
-              .range([wave.node().F || ch.SAMPLING, ch.SAMPLING * 0.8])
-              .domain([0, 1])
-          );
-          const forthAmplitude = (
-            scaleLinear()
-              .range([wave.node().A || 1, -1])
-              .domain([0, 1])
-          );
-          const interValue = interpolate(old, this.props.value);
           return (t1) => {
-            const val = interValue(t1);
-            const ampinter = forthAmplitude(t1);
-            const bfSample = forth(t1);
-            const ws = waveScale(val) * ampinter;
+            const amp = forthAmplitude(t1);
+            const freq = forthFrequency(t1);
+            const ws = amp * waveScale(this.props.value);
             waveArea
               .y0((d, i) => (
-                y(sine(ws, i, this.props.frequency, bfSample) + val)
+                y(dh.sine(ws, i, this.props.frequency, freq) + this.props.value)
               ));
-            wave.node().F = bfSample;
-            wave.node().A = ampinter;
+            wave.node().A = amp;
+            wave.node().F = freq;
             return waveArea(arr);
           };
         })
         .transition()
-        .duration(t || this.props.animationWavesTime)
-        .ease(e || ease.easeSin)
+        .duration(this.props.animationWavesTime)
+        .ease(ease.easeSinInOut)
         .attrTween('d', () => {
           wave.node().M = 0;
-          wave.node().old = this.props.value;
-          const back = (
-
-            scaleLinear()
-              .range([ch.SAMPLING * 0.8, ch.SAMPLING])
-              .domain([0, 1])
-          );
-          const backAmplitude = (
-            scaleLinear()
-              .range([-1, 1])
-              .domain([0, 1])
-          );
-          return (t2) => {
-            const val = this.props.value;
-            const ampinter = backAmplitude(t2);
-            const bfSample = back(t2);
-            const ws = waveScale(val) * ampinter;
+          return (t1) => {
+            const amp = backAmplitude(t1);
+            const freq = backFrequency(t1);
+            const ws = amp * waveScale(this.props.value);
             waveArea
               .y0((d, i) => (
-                y(sine(ws, i, this.props.frequency, bfSample) + val)
+                y(dh.sine(ws, i, this.props.frequency, freq) + this.props.value)
               ));
-            wave.node().F = bfSample;
-            wave.node().A = ampinter;
+            wave.node().A = amp;
+            wave.node().F = freq;
             return waveArea(arr);
           };
         })
         .on('end', () => {
-          wave.node().old = this.props.value;
           animation();
         });
     };
-    const m = wave.node().M;
 
-    if (m === 0 || m === 1) {
+    wave
+      .transition()
+      .duration(animationTime)
+      .ease(animationEase)
+      .attrTween('d', () => {
+        const interVal = interpolate(wave.node().old || 0, this.props.value);
+        const {
+          amplitudeScale,
+          frequencyScale,
+        } = dh.getWaveValueMovement(wave.node());
 
+        const updateNum = (val) => {
+          const value = round(val);
+          const sp = splitNumber(value, '.');
+          textValue.text(sp.number);
+          textDecimal.text(`.${sp.fraction}`);
+        };
+
+        return (t) => {
+          const val = interVal(t);
+          const amp = amplitudeScale(t);
+          const freq = frequencyScale(t);
+          const ws = amp * waveScale(val);
+          waveArea
+            .y0((d, i) => (
+              y(dh.sine(ws, i, this.props.frequency, freq) + val)
+            ));
+          wave.node().old = val;
+          wave.node().A = amp;
+          wave.node().F = freq;
+          updateNum(val);
+          return waveArea(arr);
+        };
+      })
+      .on('end', () => {
+        animation();
+      });
+  }
+
+  animateValue() {
+    // Set the sampling array to a new array of X times undefines
+    // does not matter because we only use zeros
+    const arr = new Array(ch.SAMPLING);
+
+    // Get the container element
+    const container = select(this.container);
+
+    // select the clippath that is going to be animated
+    const wave = container.select('clipPath').select('path');
+
+    // Get the easing type, if the user misspelled the easing or
+    const animationEase = this.getEasing();
+
+    // Get the animationtime
+    const animationTime = this.getAnimationTime();
+    // get the wavescale
+    const waveScale = dh.getWaveScaleLimit(this.props);
+    // get the areafunction and dimensions
+    const { waveArea, x, y, w, h } = dh.getWaveArea(this.props); // { waveArea, x, y, w, h }
+    // get the text variables
+    const textValue = container.selectAll(`.${ch.TEXT_VALUE}`);
+    const textDecimal = container.selectAll(`.${ch.TEXT_DECIMAL}`);
+
+    wave
+      .transition()
+      .duration(animationTime)
+      .ease(animationEase)
+      .attrTween('d', () => {
+        const interVal = interpolate(wave.node().old || 0, this.props.value);
+        const updateNum = (val) => {
+          const value = round(val);
+          const sp = splitNumber(value, '.');
+          textValue.text(sp.number);
+          textDecimal.text(`.${sp.fraction}`);
+        };
+        return (t) => {
+          const val = interVal(t);
+          const ws = waveScale(val);
+          waveArea
+            .y0((d, i) => (
+              y(dh.sine(ws, i, this.props.frequency, 0) + val)
+            ));
+          wave.node().old = val;
+          updateNum(val);
+          return waveArea(arr);
+        };
+      });
+
+  }
+
+  animate() {
+    if (this.props.animationWavesTime) {
+      this.animateBackAndForth();
+      return;
     }
-    animation();
+    this.animateValue();
   }
 
   draw() {
@@ -206,7 +246,7 @@ export default class Liquid extends Component {
     const textValue = container.selectAll(`.${ch.TEXT_VALUE}`);
     const decimalValue = container.selectAll(`.${ch.TEXT_DECIMAL}`);
     decimalValue.text('.3');
-    textValue.text(parseInt(this.props.value));
+    textValue.text(parseInt(this.props.value, 10));
     el.attr('d', dh.getWave(this.props)(arr));
   }
 
@@ -214,38 +254,24 @@ export default class Liquid extends Component {
     const shouldAnimate = (
       this.props.animationTime || this.props.animationEase
     );
+
     if (shouldAnimate) {
       this.animate();
       return;
     }
+
     this.draw();
   }
 
   render() {
     const d = dh.getDimensions(this.props);
     return (
-      <g>
-
       <g
         ref={(c) => { this.container = c; }}
         transform={`translate(${d.cx},${d.cy})`}
       >
         {cloneChildren(this.props, d)}
       </g>
-        <line
-          x1={d.cx}
-          x2={d.cx}
-          y1={0}
-          y2={this.props.height}
-          stroke="red"
-        />
-        <line
-          x1={0}
-          x2={this.props.width}
-          y1={d.cy}
-          y2={d.cy}
-          stroke="red"
-        />
-      </g>);
+    );
   }
 }

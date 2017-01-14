@@ -53,9 +53,9 @@ export const getWaveScaleLimit = ({ waveScaleLimit, amplitude }) => {
     );
   }
   return (
-    scaleLinear()
-      .range([amplitude])
-      .domain([0, 100])
+      scaleLinear()
+        .range([amplitude, amplitude])
+        .domain([0, 100])
   );
 };
 
@@ -71,32 +71,53 @@ export const getWave = (props) => {
   );
 };
 
-export const getWaves = (props) => {
-  const { y, h, w } = getScales(props);
-  const x = scaleLinear().range([-w, w]).domain([0, SAMPLING * 0.80]);
-  const x2 = scaleLinear().range([-w, w]).domain([0, SAMPLING * 1]);
-  const M = (Math.PI * 2) / SAMPLING;
-  const sine = (a, i, f) => (
-    a * Math.sin((M * i * f))
-  );
-  const sine2 = (a, i, f) => (
-    -a * Math.sin((M * i * f))
+export const sine = (a, i, f, s) =>
+  a * Math.sin((((Math.PI * 2) / SAMPLING) * i * f) + s);
+
+export const getWaveValueMovement = (node) => {
+  const isForth = node.M === 1;
+  const amplitudeTo = isForth ? -1 : 1;
+  const currAmplitude = node.A || -1;
+  const currFreq = node.F || 0;
+  const amplitudeScale = (
+    scaleLinear()
+      .range([currAmplitude, 0, 1])
+      .domain([0, 0.5, 1])
   );
 
-  const waveScale = getWaveScaleLimit(props);
-  const waveOne = (
-    area()
-      .x((d, i) => x(i))
-      .y0((d, i) => y(sine2(waveScale(props.value), i, props.frequency) + props.value))
-      .y1(d => h)
+  const frequencyScale = (
+    scaleLinear()
+      .range([currFreq, 0])
+      .domain([0, 1])
   );
-  const waveTwo = (
-    area()
-      .x((d, i) => x2(i))
-      .y0((d, i) => y(sine(waveScale(props.value), i, props.frequency) + props.value))
-      .y1(d => h)
-  );
+
   return {
-    waveOne, waveTwo,
+    amplitudeScale,
+    frequencyScale,
   };
 };
+
+export const getBackAndForth = () => {
+  const forthFrequency = (
+    scaleLinear()
+      .range([0, Math.PI])
+      .domain([0, 1])
+  );
+  const backFrequency = (
+    scaleLinear()
+      .range([Math.PI, 0])
+      .domain([0, 1])
+  );
+  const forthAmplitude = (
+    scaleLinear()
+      .range([1, -1])
+      .domain([0, 1])
+  );
+  const backAmplitude = (
+    scaleLinear()
+      .range([-1, 1])
+      .domain([0, 1])
+  );
+  return { forthFrequency, backFrequency, forthAmplitude, backAmplitude };
+};
+

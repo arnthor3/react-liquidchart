@@ -5,6 +5,8 @@ import Liquid from '../src/Chart/LiquidChart';
 
 describe('<Liquid />', () => {
   it('should render path', () => {
-
+    const wrapper = mount(
+      <Liquid />,
+    );
   });
 });

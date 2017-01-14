@@ -1,0 +1,896 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for Chart/Liquid.jsx</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">Chart</a> Liquid.jsx
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>114/114</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>18/18</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>29/29</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>114/114</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-yes">182x</span>
+<span class="cline-any cline-yes">182x</span>
+<span class="cline-any cline-yes">182x</span>
+<span class="cline-any cline-yes">182x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10920x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">182x</span>
+<span class="cline-any cline-yes">182x</span>
+<span class="cline-any cline-yes">182x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">137x</span>
+<span class="cline-any cline-yes">137x</span>
+<span class="cline-any cline-yes">137x</span>
+<span class="cline-any cline-yes">137x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8220x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">137x</span>
+<span class="cline-any cline-yes">137x</span>
+<span class="cline-any cline-yes">137x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1260x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1560x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, { Component, PropTypes } from 'react';
+import cloneChildren from 'react-offcharts-core/Utils/cloneChildren';
+import arcDim from 'react-offcharts-core/Helpers/arcDimension';
+import { round, splitNumber } from 'react-offcharts-core/Utils/numbers';
+import { select, selectAll } from 'd3-selection';
+import { scaleLinear } from 'd3-scale';
+import * as ease from 'd3-ease';
+import 'd3-transition';
+import { interpolate } from 'd3-interpolate';
+import * as ch from '../Helpers/constants';
+import * as dh from '../Helpers/dimensions';
+&nbsp;
+export default class Liquid extends Component {
+  static propTypes = {
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
+    outerBound: PropTypes.number,
+    innerBound: PropTypes.number,
+    animationEase: PropTypes.string,
+    animationTime: PropTypes.number,
+    animationWavesTime: PropTypes.number,
+    frequency: PropTypes.number,
+  }
+&nbsp;
+  static defaultProps = {
+    amplitude: 1,
+    liquidMargin: 0.005,
+    waveScaleLimit: true,
+    frequency: 4,
+    deliminator: '.',
+    postfix: '',
+  }
+  constructor(props) {
+    super();
+    if (props.innerBound &gt; props.outerBound) {
+      console.warn(ch.INNER_BIGGER_THAN_OUTER);
+    } else if (props.outerBound &gt; 1) {
+      console.warn(ch.OUTER_BIGGER_THAN_ONE);
+    }
+    this.iter = 0;
+  }
+&nbsp;
+  componentDidMount() {
+    this.renderChart();
+  }
+&nbsp;
+  componentDidUpdate(prevProps, prevState) {
+    this.renderChart();
+  }
+&nbsp;
+  getEasing() {
+    const animationEase = ease[this.props.animationEase];
+&nbsp;
+    if (typeof animationEase === 'function') {
+      return animationEase;
+    }
+&nbsp;
+    return ease.easeCubicInOut;
+  }
+&nbsp;
+  getAnimationTime() {
+    const animationTime = this.props.animationTime;
+&nbsp;
+    if (animationTime === undefined) {
+      return 2000;
+    }
+&nbsp;
+    return animationTime;
+  }
+&nbsp;
+  animateBackAndForth() {
+    // Set the sampling array to a new array of X times undefines
+    // does not matter because we only use zeros
+    const arr = new Array(ch.SAMPLING);
+&nbsp;
+    // Get the container element
+    const container = select(this.container);
+&nbsp;
+    // select the clippath that is going to be animated
+    const wave = container.select('clipPath').select('path');
+&nbsp;
+    // Get the easing type, if the user misspelled the easing or
+    const animationEase = this.getEasing();
+&nbsp;
+    // Get the animationtime
+    const animationTime = this.getAnimationTime();
+&nbsp;
+    // get the wavescale
+    const waveScale = dh.getWaveScaleLimit(this.props);
+&nbsp;
+    // get the scales and the area function
+    const { waveArea, x, y, w, h } = dh.getWaveArea(this.props); // { waveArea, x, y, w, h }
+&nbsp;
+    const { forthAmplitude, backAmplitude, forthFrequency, backFrequency } = dh.getBackAndForth();
+&nbsp;
+    const textValue = container.selectAll(`.${ch.TEXT_VALUE}`);
+    const textDecimal = container.selectAll(`.${ch.TEXT_DECIMAL}`);
+&nbsp;
+    const animation = () =&gt; {
+      wave
+        .transition()
+        .duration(this.props.animationWavesTime)
+        .ease(ease.easeSinInOut)
+        .attrTween('d', () =&gt; {
+          wave.node().M = 1;
+          return (t1) =&gt; {
+            const amp = forthAmplitude(t1);
+            const freq = forthFrequency(t1);
+            const ws = amp * waveScale(this.props.value);
+            waveArea
+              .y0((d, i) =&gt; (
+                y(dh.sine(ws, i, this.props.frequency, freq) + this.props.value)
+              ));
+            wave.node().A = amp;
+            wave.node().F = freq;
+            return waveArea(arr);
+          };
+        })
+        .transition()
+        .duration(this.props.animationWavesTime)
+        .ease(ease.easeSinInOut)
+        .attrTween('d', () =&gt; {
+          wave.node().M = 0;
+          return (t1) =&gt; {
+            const amp = backAmplitude(t1);
+            const freq = backFrequency(t1);
+            const ws = amp * waveScale(this.props.value);
+            waveArea
+              .y0((d, i) =&gt; (
+                y(dh.sine(ws, i, this.props.frequency, freq) + this.props.value)
+              ));
+            wave.node().A = amp;
+            wave.node().F = freq;
+            return waveArea(arr);
+          };
+        })
+        .on('end', () =&gt; {
+          animation();
+        });
+    };
+&nbsp;
+    wave
+      .transition()
+      .duration(animationTime)
+      .ease(animationEase)
+      .attrTween('d', () =&gt; {
+        const interVal = interpolate(wave.node().old || 0, this.props.value);
+        const {
+          amplitudeScale,
+          frequencyScale,
+        } = dh.getWaveValueMovement(wave.node());
+&nbsp;
+        const updateNum = (val) =&gt; {
+          const value = round(val);
+          const sp = splitNumber(value, '.');
+          textValue.text(sp.number);
+          textDecimal.text(`.${sp.fraction}`);
+        };
+&nbsp;
+        return (t) =&gt; {
+          const val = interVal(t);
+          const amp = amplitudeScale(t);
+          const freq = frequencyScale(t);
+          const ws = amp * waveScale(val);
+          waveArea
+            .y0((d, i) =&gt; (
+              y(dh.sine(ws, i, this.props.frequency, freq) + val)
+            ));
+          wave.node().old = val;
+          wave.node().A = amp;
+          wave.node().F = freq;
+          updateNum(val);
+          return waveArea(arr);
+        };
+      })
+      .on('end', () =&gt; {
+        animation();
+      });
+  }
+&nbsp;
+  animateValue() {
+    // Set the sampling array to a new array of X times undefines
+    // does not matter because we only use zeros
+    const arr = new Array(ch.SAMPLING);
+&nbsp;
+    // Get the container element
+    const container = select(this.container);
+&nbsp;
+    // select the clippath that is going to be animated
+    const wave = container.select('clipPath').select('path');
+&nbsp;
+    // Get the easing type, if the user misspelled the easing or
+    const animationEase = this.getEasing();
+&nbsp;
+    // Get the animationtime
+    const animationTime = this.getAnimationTime();
+    // get the wavescale
+    const waveScale = dh.getWaveScaleLimit(this.props);
+    // get the areafunction and dimensions
+    const { waveArea, x, y, w, h } = dh.getWaveArea(this.props); // { waveArea, x, y, w, h }
+    // get the text variables
+    const textValue = container.selectAll(`.${ch.TEXT_VALUE}`);
+    const textDecimal = container.selectAll(`.${ch.TEXT_DECIMAL}`);
+&nbsp;
+    wave
+      .transition()
+      .duration(animationTime)
+      .ease(animationEase)
+      .attrTween('d', () =&gt; {
+        const interVal = interpolate(wave.node().old || 0, this.props.value);
+        const updateNum = (val) =&gt; {
+          const value = round(val);
+          const sp = splitNumber(value, '.');
+          textValue.text(sp.number);
+          textDecimal.text(`.${sp.fraction}`);
+        };
+        return (t) =&gt; {
+          const val = interVal(t);
+          const ws = waveScale(val);
+          waveArea
+            .y0((d, i) =&gt; (
+              y(dh.sine(ws, i, this.props.frequency, 0) + val)
+            ));
+          wave.node().old = val;
+          updateNum(val);
+          return waveArea(arr);
+        };
+      });
+&nbsp;
+  }
+&nbsp;
+  animate() {
+    if (this.props.animationWavesTime) {
+      this.animateBackAndForth();
+      return;
+    }
+    this.animateValue();
+  }
+&nbsp;
+  draw() {
+    const arr = new Array(ch.SAMPLING);
+    const container = select(this.container);
+    const el = container.select('clipPath').select('path');
+    const textValue = container.selectAll(`.${ch.TEXT_VALUE}`);
+    const decimalValue = container.selectAll(`.${ch.TEXT_DECIMAL}`);
+    decimalValue.text('.3');
+    textValue.text(parseInt(this.props.value, 10));
+    el.attr('d', dh.getWave(this.props)(arr));
+  }
+&nbsp;
+  renderChart() {
+    const shouldAnimate = (
+      this.props.animationTime || this.props.animationEase
+    );
+&nbsp;
+    if (shouldAnimate) {
+      this.animate();
+      return;
+    }
+&nbsp;
+    this.draw();
+  }
+&nbsp;
+  render() {
+    const d = dh.getDimensions(this.props);
+    return (
+      &lt;g
+        ref={(c) =&gt; { this.container = c; }}
+        transform={`translate(${d.cx},${d.cy})`}
+      &gt;
+        {cloneChildren(this.props, d)}
+      &lt;/g&gt;
+    );
+  }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Jan 14 2017 22:30:23 GMT+0000 (GMT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
