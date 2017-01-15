@@ -6,28 +6,27 @@ const LiquidText = props => (
     <text {...props.style} textAnchor="middle">
       <tspan
         className={ch.TEXT_VALUE}
-        fontSize={props.valueFontSize * props.radius}
-        {...props.valueD}
+        fontSize={props.fontSizes.value * props.radius}
       />
-      <tspan
-        className={ch.TEXT_DECIMAL}
-        dx={(props.decimalFontSize * props.radius) * -0.01}
-        fontSize={props.decimalFontSize * props.radius}
-        {...props.decimalD}
-      />
+      { props.showDecimal ?
+        <tspan
+          className={ch.TEXT_DECIMAL}
+          dx={(props.fontSizes.decimal * props.radius) * -0.01}
+          fontSize={props.fontSizes.decimal * props.radius}
+        /> : null
+       }
+
       <tspan
         className={ch.TEXT_POSTFIX}
-        fontSize={props.postfixFontSize * props.radius}
-        {...props.postfixD}
+        fontSize={props.fontSizes.postfix * props.radius}
       >{props.postfix}</tspan>
     </text>
     <text
       {...props.style}
       className={ch.TEXT_LEGEND}
-      dy={props.radius * (props.legendFontSize + 0.05)}
-      fontSize={props.radius * props.legendFontSize}
+      dy={props.radius * (props.fontSizes.legend + 0.05)}
+      fontSize={props.radius * props.fontSizes.legend}
       textAnchor="middle"
-      {...props.legendD}
     >{props.legend}</text>
   </g>
 );
@@ -38,25 +37,26 @@ const dShape = PropTypes.shape({
 });
 
 LiquidText.propTypes = {
-  valueFontSize: PropTypes.number,
-  decimalFontSize: PropTypes.number,
-  postfixFontSize: PropTypes.number,
-  legendFontSize: PropTypes.number,
+  fontSizes: PropTypes.shape({
+    value: PropTypes.string,
+    decimal: PropTypes.string,
+    postfix: PropTypes.string,
+    legend: PropTypes.string,
+  }),
   radius: PropTypes.number,
-  postfix: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
-  legend: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
+  postfix: PropTypes.string,
+  legend: PropTypes.string,
   style: PropTypes.shape({}),
-  postfixD: dShape,
-  decimalD: dShape,
-  valueD: dShape,
-  legendD: dShape,
+  showDecimal: PropTypes.bool,
 };
 
 LiquidText.defaultProps = {
-  valueFontSize: 0.5,
-  decimalFontSize: 0.35,
-  postfixFontSize: 0.25,
-  legendFontSize: 0.1,
+  fontSizes: {
+    value: 0.5,
+    decimal: 0.35,
+    postfix: 0.25,
+    legend: 0.1,
+  },
 };
 
 export default LiquidText;

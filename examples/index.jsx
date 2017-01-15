@@ -38,6 +38,7 @@ class TestLiquid extends Component {
             frequency={2}
             animationTime={2000}
             animationWavesTime={2250}
+            showDecimal
             gradient={{
               type: 1,
               x1: 0,

@@ -41,10 +41,7 @@ const LiquidChart = props => (
           deliminator={props.deliminator}
           postfix={props.postfix}
           showDecimal={props.showDecimal}
-          valueStyle={props.valueStyle}
-          decimalStyle={props.decimalStyle}
-          postfixStyle={props.postfixStyle}
-          legendStyle={props.legendStyle}
+          fontSizes={props.fontSizes}
           legend={props.legend}
         />
       </Shape>
@@ -82,11 +79,27 @@ LiquidChart.propTypes = {
   postfix: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   legend: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   showDecimal: PropTypes.bool,
-  legendStyle: dShape,
-  valueStyle: dShape,
-  postfixStyle: dShape,
-  decimalStyle: dShape,
-  gradient: gradientProps,
+  fontSizes: PropTypes.shape({
+    value: PropTypes.string,
+    decimal: PropTypes.string,
+    postfix: PropTypes.string,
+    legend: PropTypes.string,
+  }),
+  gradient: PropTypes.shape({
+    type: PropTypes.number,
+    r: PropTypes.number,
+    x: PropTypes.number,
+    x1: PropTypes.number,
+    x2: PropTypes.number,
+    y: PropTypes.number,
+    y1: PropTypes.number,
+    y2: PropTypes.number,
+    cx: PropTypes.number,
+    cy: PropTypes.number,
+    fx: PropTypes.number,
+    fy: PropTypes.number,
+    stops: PropTypes.arrayOf(PropTypes.node),
+  }),
 };
 
 LiquidChart.defaultProps = {

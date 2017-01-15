@@ -62,14 +62,14 @@ Width|number|*null*| The width of the chart, used if responsive is false
 height|number|*null*|The width of the chart, used if responsive is false
 responsive|bool|*true*|If set to true then the element will fill out into parent container, and resize on window dimension change
 Value|number|*65*|The value, tops at 100 and 0 is the minimum
-animationWavesTime|number|*2000*|The speed of the wave animation, going back and forth
+animationWavesTime|number|*null*|The speed of the wave animation, going back and forth
 animationTime|number|2000| milliseconds for animation when updating value
 animationEase|string|*'easeCubicInOut'*|The name of the d3 easing function, other values like, easeBack, easeBackInOut, easeSinInOut, easeExpInOut. See d3 easing page for more ideas.
 outerBound|number|*0.9*|This is the outerRadius of the chart where 1 would be 100% of the radius and 0 would be 0% of the radius..
 innerBound|number|*0.8*|The innerwidth of the outerpath surronding the liquid, again 0.8 would be 80% of the radius.
 margin|number|*0.025*|The margin between the outer path and the liquid, here 0.025 would be 2.5%
-amplitude|number|2|The Amplitude X * sine(frequency) part of the formula
-frequency|number|4|The frequency, how many full circles are in the chart.
+amplitude|number|4|The Amplitude X * sine(frequency) part of the formula
+frequency|number|2|The frequency, how many full circles are in the chart.
 waveScaleLimit|bool|true|This is in the original, this will create a scale that limits the wave height close to 0 or 100
 outerStyle|shape|{ fill: 'rgb(23,139,202)'}| The style of the outerarc fill and stroke
 liquidStyle|shape|{ fill: 'rgb(23, 139, 202)'}| The style of the liquid, fill and stroke
