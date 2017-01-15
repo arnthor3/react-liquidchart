@@ -26,9 +26,7 @@ export const getInnerShape = ({ innerBound, radius, liquidMargin }) => (
 );
 
 export const getScales = (props) => {
-  console.log(props);
   const { radius } = getDimensions(props);
-  console.log(radius);
   const r = radius * (props.innerBound - props.liquidMargin);
   const rx = radius * (props.outerBound);
   const x = scaleLinear().range([-rx, rx]).domain([0, SAMPLING]);
