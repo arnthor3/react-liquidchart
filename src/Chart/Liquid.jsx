@@ -91,7 +91,7 @@ export default class Liquid extends Component {
     const waveScale = dh.getWaveScaleLimit(this.props);
 
     // get the scales and the area function
-    const { waveArea, x, y, w, h } = dh.getWaveArea(this.props); // { waveArea, x, y, w, h }
+    const { waveArea, x, y } = dh.getWaveArea(this.props); // { waveArea, x, y, w, h }
 
     const { forthAmplitude, backAmplitude, forthFrequency, backFrequency } = dh.getBackAndForth();
 
@@ -154,7 +154,7 @@ export default class Liquid extends Component {
 
         const updateNum = (val) => {
           const value = round(val);
-          const sp = splitNumber(value, '.');
+          const sp = splitNumber(value, this.props.deliminator);
           textValue.text(sp.number);
           textDecimal.text(`.${sp.fraction}`);
         };
@@ -199,7 +199,7 @@ export default class Liquid extends Component {
     // get the wavescale
     const waveScale = dh.getWaveScaleLimit(this.props);
     // get the areafunction and dimensions
-    const { waveArea, x, y, w, h } = dh.getWaveArea(this.props); // { waveArea, x, y, w, h }
+    const { waveArea, x, y } = dh.getWaveArea(this.props); // { waveArea, x, y, w, h }
     // get the text variables
     const textValue = container.selectAll(`.${ch.TEXT_VALUE}`);
     const textDecimal = container.selectAll(`.${ch.TEXT_DECIMAL}`);
@@ -228,7 +228,6 @@ export default class Liquid extends Component {
           return waveArea(arr);
         };
       });
-
   }
 
   animate() {

@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import LiquidChart from '../src/index';
 
 const style = {
-  width: '600px',
+  width: '50%',
   height: '500px',
 };
 

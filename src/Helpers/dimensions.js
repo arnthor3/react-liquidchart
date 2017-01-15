@@ -17,7 +17,7 @@ export const getOuterShape = ({ outerBound, innerBound, radius }) => (
     .endAngle(Math.PI * 2)
 );
 
-export const getInnerShape = ({ innerBound, radius, liquidMargin = 0.0025 }) => (
+export const getInnerShape = ({ innerBound, radius, liquidMargin }) => (
   arc()
     .innerRadius(0)
     .outerRadius((innerBound - liquidMargin) * radius)
@@ -25,23 +25,26 @@ export const getInnerShape = ({ innerBound, radius, liquidMargin = 0.0025 }) => 
     .endAngle(Math.PI * 2)
 );
 
-export const getScales = ({ height, width, innerBound, liquidMargin }) => {
-  const h = ((height * (innerBound - liquidMargin)) / 2);
-  const w = ((width * (innerBound - liquidMargin)) / 2);
-  const x = scaleLinear().range([-w, w]).domain([0, SAMPLING]);
-  const y = scaleLinear().range([h, -h]).domain([0, 100]);
-  return { w, h, x, y };
+export const getScales = (props) => {
+  console.log(props);
+  const { radius } = getDimensions(props);
+  console.log(radius);
+  const r = radius * (props.innerBound - props.liquidMargin);
+  const rx = radius * (props.outerBound);
+  const x = scaleLinear().range([-rx, rx]).domain([0, SAMPLING]);
+  const y = scaleLinear().range([r, -r]).domain([0, 100]);
+  return { x, y, r };
 };
 
 
 export const getWaveArea = (props) => {
-  const { x, y, w, h } = getScales(props);
+  const { x, y, r } = getScales(props);
   const waveArea = (
     area()
       .x((d, i) => x(i))
-      .y1(d => h)
+      .y1(d => r)
   );
-  return { waveArea, x, y, w, h };
+  return { waveArea, x, y };
 };
 
 export const getWaveScaleLimit = ({ waveScaleLimit, amplitude }) => {
