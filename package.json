@@ -8,7 +8,7 @@
     "test:watch": "jest --watch",
     "coverage": "jest --coverage",
     "start": "webpack-dev-server --inline --hot",
-    "coveralls": "jest --coverage | coveralls",
+    "coveralls": "npm run coverage | coveralls",
     "build": "babel src -d dist"
   },
   "repository": {

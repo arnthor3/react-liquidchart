@@ -61,14 +61,14 @@ export const getWaveScaleLimit = ({ waveScaleLimit, amplitude }) => {
 };
 
 export const getWave = (props) => {
-  const { x, y, h, w } = getScales(props);
+  const { x, y, r } = getScales(props);
   const sine = (a, i, f) => a * (Math.sin((((Math.PI * 2) / SAMPLING) * i * f)));
   const waveScale = getWaveScaleLimit(props);
   return (
     area()
       .x((d, i) => x(i))
       .y0((d, i) => y(sine(waveScale(props.value), i, 4) + props.value))
-      .y1(d => h)
+      .y1(d => r)
   );
 };
 

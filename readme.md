@@ -9,6 +9,9 @@ A Nice looking liquid chart done with d3 and react, based off http://bl.ocks.org
 npm install react-liquidchart
 ```
 
+### Example
+For now, [this](https://arnthor3.github.io/arnthor3/offcharts) will have to do.
+
 ### Usage
 
 ``` js
@@ -75,8 +78,8 @@ outerStyle|shape|*{ fill: 'rgb(23,139,202)'}*| The style of the outerarc fill an
 liquidStyle|shape|*{ fill: 'rgb(23, 139, 202)'}*| The style of the liquid, fill and stroke
 dryStyle|shape|*{fill: 'rgb(164, 219, 248)'}*| The style of the number that is in the liquid, fill and stroke
 wetStyle|shape|*{fill: 'rgb(4, 86, 129)'}*| The style of the number that is not in the liquid, fill and stroke
-fontSizes|shape|**
-#### Licence
+fontSizes|shape|| The sizes of the fonts in ratio to the radius.
 
+#### Licence
 This software was available initially under the BSD-2-Clause and it still is.
 Please see the original and put a github like on it at https://gist.github.com/brattonc/5e5ce9beee483220e2f6

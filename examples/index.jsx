@@ -57,8 +57,8 @@ class TestLiquid extends Component {
             legend="Percentage of Completed Tasks"
             value={this.state.valueTwo}
             waveScaleLimit
-            amplitude={4}
-            frequency={2}
+            amplitude={2}
+            frequency={4}
           />
         </div>
       </span>
