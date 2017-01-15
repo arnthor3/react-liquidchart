@@ -9,7 +9,7 @@ import Text from '../src/Chart/Text';
 describe('<Text />', () => {
   it('should render when cloned', () => {
     const wrapper = mount(
-      <Shape>
+      <Shape showDecimal>
         <Text />
       </Shape>,
     );
