@@ -38,10 +38,10 @@ const dShape = PropTypes.shape({
 
 LiquidText.propTypes = {
   fontSizes: PropTypes.shape({
-    value: PropTypes.string,
-    decimal: PropTypes.string,
-    postfix: PropTypes.string,
-    legend: PropTypes.string,
+    value: PropTypes.number,
+    decimal: PropTypes.number,
+    postfix: PropTypes.number,
+    legend: PropTypes.number,
   }),
   radius: PropTypes.number,
   postfix: PropTypes.string,
