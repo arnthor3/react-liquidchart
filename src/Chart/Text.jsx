@@ -11,7 +11,7 @@ const LiquidText = props => (
       />
       <tspan
         className={ch.TEXT_DECIMAL}
-        dx={(props.decimalFontSize * props.radius) * -0.1}
+        dx={(props.decimalFontSize * props.radius) * -0.01}
         fontSize={props.decimalFontSize * props.radius}
         {...props.decimalD}
       />

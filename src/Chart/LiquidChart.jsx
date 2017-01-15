@@ -7,7 +7,7 @@ import Clip from './Clip';
 import Text from './Text';
 import Shape from './Shape';
 import Liquid from './Liquid';
-import { dShape, fillAndStroke } from '../Helpers/props';
+import { dShape, fillAndStroke, gradientProps } from '../Helpers/props';
 
 const gradientId = guid();
 
@@ -29,7 +29,6 @@ const LiquidChart = props => (
       animationWavesTime={props.animationWavesTime}
       animationTime={props.animationTime}
       animationEase={props.animationEase}
-      gradient={props.gradientType}
     >
       <Shape
         type={props.type}
@@ -42,40 +41,26 @@ const LiquidChart = props => (
           deliminator={props.deliminator}
           postfix={props.postfix}
           showDecimal={props.showDecimal}
-          valueFontSize={props.valueFontSize}
-          valueD={props.valueD}
-          decimalFontSize={props.decimalFontSize}
-          decimalD={props.decimalD}
-          postfixFontSize={props.postfixFontSize}
-          postfixD={props.postfixD}
+          valueStyle={props.valueStyle}
+          decimalStyle={props.decimalStyle}
+          postfixStyle={props.postfixStyle}
+          legendStyle={props.legendStyle}
           legend={props.legend}
-          legendFontSize={props.legendFontSize}
-          legendD={props.legendD}
         />
       </Shape>
-      <ReactIf condition={props.gradientType} el={<g />}>
+      <ReactIf condition={props.gradient.type} el={<g />}>
         <Gradients
           id={gradientId}
-          type={props.gradientType}
-          x={props.gradientX}
-          y={props.gradientY}
-          x1={props.gradientX1}
-          y1={props.gradientY1}
-          x2={props.gradientX2}
-          y2={props.gradientY2}
-          cx={props.gradientCx}
-          cy={props.gradientCy}
-          fx={props.gradientFx}
-          fy={props.gradientFy}
-          r={props.gradientR}
+          {...props.gradient}
           fill={props.liquidStyle.fill}
-          stops={props.stops}
         />
       </ReactIf>
       <Clip />
     </Liquid>
   </Chart>
 );
+
+
 
 LiquidChart.propTypes = {
   width: PropTypes.number,
@@ -97,27 +82,11 @@ LiquidChart.propTypes = {
   postfix: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   legend: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   showDecimal: PropTypes.bool,
-  legendFontSize: PropTypes.number,
-  legendD: dShape,
-  valueFontSize: PropTypes.number,
-  valueD: dShape,
-  postfixFontSize: PropTypes.number,
-  postfixD: dShape,
-  decimalFontSize: PropTypes.number,
-  decimalD: dShape,
-  gradientType: PropTypes.number,
-  gradientR: PropTypes.number,
-  gradientX: PropTypes.number,
-  gradientX1: PropTypes.number,
-  gradientX2: PropTypes.number,
-  gradientY: PropTypes.number,
-  gradientY1: PropTypes.number,
-  gradientY2: PropTypes.number,
-  gradientCx: PropTypes.number,
-  gradientCy: PropTypes.number,
-  gradientFx: PropTypes.number,
-  gradientFy: PropTypes.number,
-  stops: PropTypes.arrayOf(PropTypes.node),
+  legendStyle: dShape,
+  valueStyle: dShape,
+  postfixStyle: dShape,
+  decimalStyle: dShape,
+  gradient: gradientProps,
 };
 
 LiquidChart.defaultProps = {
@@ -131,10 +100,12 @@ LiquidChart.defaultProps = {
   liquidStyle: { fill: 'rgb(23, 139, 202)' },
   dryStyle: { fill: 'rgb(4, 86, 129)' },
   wetStyle: { fill: 'rgb(164, 219, 248)' },
-  gradientX1: 0,
-  gradientX2: 0,
-  gradientY1: 100,
-  gradientY2: 0,
+  gradient: {
+    x1: 0,
+    x2: 0,
+    y1: 100,
+    y2: 0,
+  },
 };
 
 export default LiquidChart;

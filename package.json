@@ -1,6 +1,6 @@
 {
   "name": "react-liquidchart",
-  "version": "0.1.13",
+  "version": "0.2.0",
   "description": "A Reusable liquid chart made with d3 and react",
   "main": "dist/index.js",
   "scripts": {

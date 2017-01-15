@@ -38,7 +38,13 @@ class TestLiquid extends Component {
             frequency={2}
             animationTime={2000}
             animationWavesTime={2250}
-            gradientType={1}
+            gradient={{
+              type: 1,
+              x1: 0,
+              x2: 0,
+              y1: 100,
+              y2: 0,
+            }}
             postfix="%"
             legendFontSize={0.1}
           />
