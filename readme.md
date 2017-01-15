@@ -10,7 +10,7 @@ npm install react-liquidchart
 ```
 
 ### Example
-For now, [this](https://arnthor3.github.io/arnthor3/offcharts) will have to do.
+For now, [this](https://arnthor3.github.io/arnthor3/liquid.html) will have to do.
 
 ### Usage
 

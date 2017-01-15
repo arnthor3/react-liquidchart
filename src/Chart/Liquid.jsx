@@ -244,7 +244,7 @@ export default class Liquid extends Component {
     const el = container.select('clipPath').select('path');
     const textValue = container.selectAll(`.${ch.TEXT_VALUE}`);
     const decimalValue = container.selectAll(`.${ch.TEXT_DECIMAL}`);
-    decimalValue.text('.3');
+
     textValue.text(parseInt(this.props.value, 10));
     el.attr('d', dh.getWave(this.props)(arr));
   }
