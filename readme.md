@@ -10,6 +10,7 @@ npm install react-liquidchart
 ```
 
 ### Usage
+
 ``` js
 import React, { Component } from 'react';
 import { render } from 'react-dom';
@@ -18,16 +19,6 @@ import LiquidChart from 'react-liquidchart';
 class ChartLiquid extends Component {
   constructor() {
     super();
-    this.onClick = this.onClick.bind(this);
-    this.state = ({
-      value: (Math.random() * 100),
-    });
-  }
-
-  onClick() {
-    this.setState({
-      value: (Math.random() * 100),
-    });
   }
 
   render() {
@@ -39,64 +30,24 @@ class ChartLiquid extends Component {
         }}
       >
         <LiquidChart
-          responsive
-          gradient="liquid"
-          animate
-          animateWaves
-          onClick={this.onClick}
-          amplitude={4}
-          value={this.state.value}
+            responsive
+            legend="Percentage of Completed Tasks"
+            value={Math.random() * 100}
+            showDecimal
+            amplitude={4}
+            frequency={2}
+            animationTime={2000}
+            animationWavesTime={2250}
+            gradient={{
+              type: 1,
+              x1: 0,
+              x2: 0,
+              y1: 100,
+              y2: 0,
+            }}
+            postfix="%"
+            legendFontSize={0.1}
           />
-          <Gradient />
-        </Chart>
-      </div>
-    );
-  }
-}
-render(<ChartLiquid />, document.getElementById('app'));
-```
-
-### Simpler version but with no gradient control
-
-``` js
-import React, { Component } from 'react';
-import { render } from 'react-dom';
-import LiquidChart from 'react-liquidchart';
-
-class ChartLiquid extends Component {
-  constructor() {
-    super();
-    this.onClick = this.onClick.bind(this);
-    this.state = ({
-      value: (Math.random() * 100),
-    });
-  }
-
-  onClick() {
-    this.setState({
-      value: (Math.random() * 100),
-    });
-  }
-
-  render() {
-    return (
-      <div
-        style={{
-          width: '100%',
-          height: '500px',
-        }}
-      >
-        <LiquidChart
-          responsive
-          gradient="liquid"
-          animate
-          ease='easeBackIn'
-          animateWaves
-          animationWavesTime={4000}
-          onClick={this.onClick}
-          amplitude={4}
-          value={this.state.value}
-        />
       </div>
     );
   }
