@@ -4,16 +4,18 @@
 
 A Nice looking liquid chart done with d3 and react, based off http://bl.ocks.org/brattonc/5e5ce9beee483220e2f6
 
+There is also another really nice version [here](https://github.com/trendmicro-frontend/react-liquid-gauge)
+
 ### Install from NPM
 ```sh
 npm install react-liquidchart
 ```
 
 ### Example
-For now, [this](https://arnthor3.github.io/arnthor3/liquid.html) will have to do.
+For now, [this will have to do](https://arnthor3.github.io/arnthor3/liquid.html).
+
 
 ### Usage
-
 ``` js
 import React, { Component } from 'react';
 import { render } from 'react-dom';
