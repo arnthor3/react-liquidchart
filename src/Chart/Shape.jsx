@@ -40,6 +40,6 @@ Shape.defaultProps = {
   outerStyle: {},
   wetStyle: {},
   dryStyle: {},
-}
+};
 
 export default Shape;

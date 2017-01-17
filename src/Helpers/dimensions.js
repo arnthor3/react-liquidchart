@@ -2,11 +2,12 @@ import { arc, area } from 'd3-shape';
 import { scaleLinear } from 'd3-scale';
 import { SAMPLING } from './constants';
 
-export const getDimensions = ({ width, height, chartMargin = 0 }) => {
+export const getDimensions = ({ width, height, innerBound, liquidMargin, chartMargin = 0 }) => {
   const cx = (width - (chartMargin / 2)) / 2;
   const cy = (height - (chartMargin / 2)) / 2;
   const radius = Math.min(cx, cy);
-  return { cx, cy, radius };
+  const inner = radius * (innerBound - liquidMargin);
+  return { cx, cy, radius, inner };
 };
 
 export const getOuterShape = ({ outerBound, innerBound, radius }) => (
@@ -28,8 +29,9 @@ export const getInnerShape = ({ innerBound, radius, liquidMargin }) => (
 export const getScales = (props) => {
   const { radius } = getDimensions(props);
   const r = radius * (props.innerBound - props.liquidMargin);
+  const xR = radius * (props.outerBound);
   const rx = radius * (props.outerBound);
-  const x = scaleLinear().range([-rx, rx]).domain([0, SAMPLING]);
+  const x = scaleLinear().range([-xR, xR]).domain([0, SAMPLING]);
   const y = scaleLinear().range([r, -r]).domain([0, 100]);
   return { x, y, r };
 };

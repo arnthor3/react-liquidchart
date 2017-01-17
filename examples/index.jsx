@@ -38,6 +38,7 @@ class TestLiquid extends Component {
             frequency={2}
             animationTime={2000}
             animationWavesTime={2250}
+            deliminator="~"
             showDecimal
             gradient={{
               type: 1,
@@ -47,7 +48,12 @@ class TestLiquid extends Component {
               y2: 0,
             }}
             postfix="%"
-            legendFontSize={0.1}
+            fontSizes={{
+              legend: 0.12,
+              value: 0.6,
+              decimal: 0.2,
+              percentage: 0.15,
+            }}
           />
         </div>
         <button onClick={() => { this.onClickOne(); }}>RANDOM</button>

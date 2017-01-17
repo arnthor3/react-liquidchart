@@ -93,8 +93,9 @@ export default class Liquid extends Component {
     // get the scales and the area function
     const { waveArea, x, y } = dh.getWaveArea(this.props); // { waveArea, x, y, w, h }
 
+    // The waves movement
     const { forthAmplitude, backAmplitude, forthFrequency, backFrequency } = dh.getBackAndForth();
-
+    // get the tspan nodes
     const textValue = container.selectAll(`.${ch.TEXT_VALUE}`);
     const textDecimal = container.selectAll(`.${ch.TEXT_DECIMAL}`);
 
@@ -154,9 +155,9 @@ export default class Liquid extends Component {
 
         const updateNum = (val) => {
           const value = round(val);
-          const sp = splitNumber(value, this.props.deliminator);
+          const sp = splitNumber(value);
           textValue.text(sp.number);
-          textDecimal.text(`.${sp.fraction}`);
+          textDecimal.text(`${sp.deliminator}${sp.fraction}`);
         };
 
         return (t) => {

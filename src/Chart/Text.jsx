@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import * as ch from '../Helpers/constants';
 
 const LiquidText = props => (
-  <g>
+  <g className={ch.TEXT}>
     <text {...props.style} textAnchor="middle">
       <tspan
         className={ch.TEXT_VALUE}

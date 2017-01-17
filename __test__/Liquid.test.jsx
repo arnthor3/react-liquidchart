@@ -85,7 +85,8 @@ describe('<Liquid />', () => {
   });
 
   it('should animate if either ease or time is set', (done) => {
-    const spy = sinon.spy(Liquid.prototype, 'animateValue')
+    const spy = sinon.spy(Liquid.prototype, 'animateValue');
+
     const wrapper = mount(
       <Liquid
         outerBound={1.2}

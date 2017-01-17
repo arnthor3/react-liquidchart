@@ -38,7 +38,6 @@ const LiquidChart = props => (
         dryStyle={props.dryStyle}
       >
         <Text
-          deliminator={props.deliminator}
           postfix={props.postfix}
           showDecimal={props.showDecimal}
           fontSizes={props.fontSizes}
