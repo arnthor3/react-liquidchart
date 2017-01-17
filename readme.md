@@ -83,8 +83,8 @@ frequency|number|*2*|The frequency, how many full circles are in the chart.
 waveScaleLimit|bool|*true*|This is in the original, this will create a scale that limits the wave height close to 0 or 100
 outerStyle|shape|*{ fill: 'rgb(23,139,202)'}*| The style of the outerarc fill and stroke
 liquidStyle|shape|*{ fill: 'rgb(23, 139, 202)'}*| The style of the liquid, fill and stroke
-dryStyle|shape|*{fill: 'rgb(164, 219, 248)'}*| The style of the number that is in the liquid, fill and stroke
-wetStyle|shape|*{fill: 'rgb(4, 86, 129)'}*| The style of the number that is not in the liquid, fill and stroke
+dryStyle|shape|*{fill: 'rgb(164, 219, 248)'}*| The style of the number that is not in the liquid, fill and stroke
+wetStyle|shape|*{fill: 'rgb(4, 86, 129)'}*| The style of the number that is in the liquid, fill and stroke
 fontSizes|shape|| The sizes of the fonts in ratio to the radius.
 showDecimal|bool|*false*| If this is set then the decimal place is shown
 postfix|string|*null*|The symbol that goes in the last tspan placeholder
