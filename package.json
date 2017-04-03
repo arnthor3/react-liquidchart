@@ -1,6 +1,6 @@
 {
   "name": "react-liquidchart",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "description": "A Reusable liquid chart made with d3 and react",
   "main": "dist/index.js",
   "scripts": {
@@ -59,6 +59,6 @@
     "d3-transition": "^1.0.3",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
-    "react-offcharts-core": "^0.1.2"
+    "react-offcharts-core": "^0.1.5"
   }
 }
