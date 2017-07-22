@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import cloneChildren from 'react-offcharts-core/Utils/cloneChildren';
 import * as ch from '../Helpers/constants';
 import { getOuterShape, getInnerShape } from '../Helpers/dimensions';

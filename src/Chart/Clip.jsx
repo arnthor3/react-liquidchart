@@ -1,12 +1,13 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const Clip = ({ clipId }) => (
-  <g transform={`translate(40,0)`}>
+  <g transform="translate(40,0)">
     <defs>
-    <clipPath id={clipId}>
-      <path />
-    </clipPath>
-  </defs>
+      <clipPath id={clipId}>
+        <path />
+      </clipPath>
+    </defs>
   </g>
 
 );

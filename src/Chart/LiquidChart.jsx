@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Chart from 'react-offcharts-core/Components/Chart';
 import ReactIf from 'react-offcharts-core/Components/ReactIf';
 import Gradients from 'react-offcharts-core/Components/Defs/Gradients';
@@ -56,8 +57,6 @@ const LiquidChart = props => (
   </Chart>
 );
 
-
-
 LiquidChart.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
@@ -74,7 +73,7 @@ LiquidChart.propTypes = {
   liquidStyle: fillAndStroke,
   wetStyle: fillAndStroke,
   dryStyle: fillAndStroke,
-  deliminator: PropTypes.string,
+  // deliminator: PropTypes.string,
   postfix: PropTypes.string,
   legend: PropTypes.string,
   showDecimal: PropTypes.bool,

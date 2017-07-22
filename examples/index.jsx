@@ -6,6 +6,10 @@ const style = {
   width: '50%',
   height: '500px',
 };
+const stops = [
+  <stop key={4} offset="0" stopColor="blue" />,
+  <stop key={5} offset="1" stopColor="red" />,
+];
 
 class TestLiquid extends Component {
   constructor() {
@@ -13,7 +17,7 @@ class TestLiquid extends Component {
     this.onClickOne = this.onClickOne.bind(this);
     this.onClickTwo = this.onClickTwo.bind(this);
     this.state = {
-      valueOne: Math.random() * 100,
+      valueOne: 100,
       valueTwo: Math.random() * 100,
     };
   }
@@ -42,10 +46,12 @@ class TestLiquid extends Component {
             showDecimal
             gradient={{
               type: 1,
-              x1: 0,
-              x2: 0,
-              y1: 100,
-              y2: 0,
+              x1: '0%',
+              y1: '0%',
+              x2: '20%',
+              y2: '100%',
+              gradientUnits: 'userSpaceOnUse',
+              stops,
             }}
             postfix="%"
             fontSizes={{

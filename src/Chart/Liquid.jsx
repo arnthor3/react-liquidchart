@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import cloneChildren from 'react-offcharts-core/Utils/cloneChildren';
 import arcDim from 'react-offcharts-core/Helpers/arcDimension';
 import { round, splitNumber } from 'react-offcharts-core/Utils/numbers';
